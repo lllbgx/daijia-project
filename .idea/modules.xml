@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/common/common-log/common-log.iml" filepath="$PROJECT_DIR$/daijia-parent/common/common-log/common-log.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/common/common-util/common-util.iml" filepath="$PROJECT_DIR$/daijia-parent/common/common-util/common-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/model/model.iml" filepath="$PROJECT_DIR$/daijia-parent/model/model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/common/rabbit-util/rabbit-util.iml" filepath="$PROJECT_DIR$/daijia-parent/common/rabbit-util/rabbit-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/server-gateway/server-gateway.iml" filepath="$PROJECT_DIR$/daijia-parent/server-gateway/server-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service/service-coupon/service-coupon.iml" filepath="$PROJECT_DIR$/daijia-parent/service/service-coupon/service-coupon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service-client/service-coupon-client/service-coupon-client.iml" filepath="$PROJECT_DIR$/daijia-parent/service-client/service-coupon-client/service-coupon-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service/service-customer/service-customer.iml" filepath="$PROJECT_DIR$/daijia-parent/service/service-customer/service-customer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service-client/service-customer-client/service-customer-client.iml" filepath="$PROJECT_DIR$/daijia-parent/service-client/service-customer-client/service-customer-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service/service-dispatch/service-dispatch.iml" filepath="$PROJECT_DIR$/daijia-parent/service/service-dispatch/service-dispatch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service-client/service-dispatch-client/service-dispatch-client.iml" filepath="$PROJECT_DIR$/daijia-parent/service-client/service-dispatch-client/service-dispatch-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service/service-driver/service-driver.iml" filepath="$PROJECT_DIR$/daijia-parent/service/service-driver/service-driver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service-client/service-driver-client/service-driver-client.iml" filepath="$PROJECT_DIR$/daijia-parent/service-client/service-driver-client/service-driver-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service/service-map/service-map.iml" filepath="$PROJECT_DIR$/daijia-parent/service/service-map/service-map.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service-client/service-map-client/service-map-client.iml" filepath="$PROJECT_DIR$/daijia-parent/service-client/service-map-client/service-map-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service/service-mq/service-mq.iml" filepath="$PROJECT_DIR$/daijia-parent/service/service-mq/service-mq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service/service-order/service-order.iml" filepath="$PROJECT_DIR$/daijia-parent/service/service-order/service-order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service-client/service-order-client/service-order-client.iml" filepath="$PROJECT_DIR$/daijia-parent/service-client/service-order-client/service-order-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service/service-payment/service-payment.iml" filepath="$PROJECT_DIR$/daijia-parent/service/service-payment/service-payment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service-client/service-payment-client/service-payment-client.iml" filepath="$PROJECT_DIR$/daijia-parent/service-client/service-payment-client/service-payment-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service/service-rules/service-rules.iml" filepath="$PROJECT_DIR$/daijia-parent/service/service-rules/service-rules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service-client/service-rules-client/service-rules-client.iml" filepath="$PROJECT_DIR$/daijia-parent/service-client/service-rules-client/service-rules-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service/service-system/service-system.iml" filepath="$PROJECT_DIR$/daijia-parent/service/service-system/service-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/service-client/service-system-client/service-system-client.iml" filepath="$PROJECT_DIR$/daijia-parent/service-client/service-system-client/service-system-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/common/service-util/service-util.iml" filepath="$PROJECT_DIR$/daijia-parent/common/service-util/service-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/common/spring-security/spring-security.iml" filepath="$PROJECT_DIR$/daijia-parent/common/spring-security/spring-security.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/web/web-customer/web-customer.iml" filepath="$PROJECT_DIR$/daijia-parent/web/web-customer/web-customer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/web/web-driver/web-driver.iml" filepath="$PROJECT_DIR$/daijia-parent/web/web-driver/web-driver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daijia-parent/web/web-mgr/web-mgr.iml" filepath="$PROJECT_DIR$/daijia-parent/web/web-mgr/web-mgr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xxl-job-master/xxl-job-admin/xxl-job-admin.iml" filepath="$PROJECT_DIR$/xxl-job-master/xxl-job-admin/xxl-job-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xxl-job-master/xxl-job-core/xxl-job-core.iml" filepath="$PROJECT_DIR$/xxl-job-master/xxl-job-core/xxl-job-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xxl-job-master/xxl-job-executor-samples/xxl-job-executor-sample-springboot/xxl-job-executor-sample-springboot.iml" filepath="$PROJECT_DIR$/xxl-job-master/xxl-job-executor-samples/xxl-job-executor-sample-springboot/xxl-job-executor-sample-springboot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/代码.iml" filepath="$PROJECT_DIR$/.idea/代码.iml" />
+    </modules>
+  </component>
+</project>

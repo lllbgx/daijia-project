@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/daijia-parent/common/common-log/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/common/common-util/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/common/rabbit-util/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/common/service-util/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/common/spring-security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/server-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/service-coupon-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/service-customer-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/service-dispatch-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/service-driver-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/service-map-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/service-order-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/service-payment-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/service-rules-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/service-system-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service-client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/service-coupon/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/service-customer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/service-dispatch/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/service-driver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/service-map/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/service-mq/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/service-order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/service-payment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/service-rules/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/service-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/web/web-customer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/web/web-driver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/daijia-parent/web/web-mgr/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/xxl-job-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/xxl-job-admin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/xxl-job-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/xxl-job-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/xxl-job-executor-samples/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/xxl-job-executor-samples/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/xxl-job-executor-samples/xxl-job-executor-sample-frameless/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/xxl-job-executor-samples/xxl-job-executor-sample-frameless/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/xxl-job-executor-samples/xxl-job-executor-sample-springboot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-master/xxl-job-executor-samples/xxl-job-executor-sample-springboot/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

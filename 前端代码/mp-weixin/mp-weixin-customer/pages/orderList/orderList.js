@@ -169,7 +169,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             b: common_vendor.p({
               _class: "text-weight-b",
               color: "red",
-              label: (item.status < common_vendor.unref(config_constEnums.OrderStatus).UNPAID ? "预估:" : "总共:") + item.amount.toFixed(2) + "元"
+              label: (item.status < common_vendor.unref(config_constEnums.OrderStatus).UNPAID ? "预估:" : "总共:") + (item.amount || 0).toFixed(2) + "元"
             }),
             c: common_vendor.t(common_vendor.unref(config_constEnums.getLabelByValue)(common_vendor.unref(config_constEnums.OrderStatusMap), item.status)),
             d: "704f45c6-4-" + i0 + "," + ("704f45c6-3-" + i0),

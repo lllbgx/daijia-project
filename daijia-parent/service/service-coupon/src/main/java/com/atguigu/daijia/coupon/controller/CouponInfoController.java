@@ -100,5 +100,66 @@ public class CouponInfoController {
         pageVo.setLimit(limit);
         return Result.ok(pageVo);
     }
+
+    @Operation(summary = "更新优惠券状态为已使用")
+    @PostMapping("/updateCouponStatus/{customerCouponId}/{orderId}")
+    public Result<Boolean> updateCouponStatus(@PathVariable Long customerCouponId,
+                                           @PathVariable Long orderId) {
+        return Result.ok(couponInfoService.updateCouponStatus(customerCouponId, orderId));
+    }
+
+    // ==================== 管理端API ====================
+
+    @Operation(summary = "分页查询优惠券信息（管理端）")
+    @GetMapping("/mgr/findCouponInfoPage/{page}/{limit}")
+    public Result<PageVo<CouponInfo>> findCouponInfoPage(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit) {
+        return Result.ok(couponInfoService.findCouponInfoPage(page, limit));
+    }
+
+    @Operation(summary = "根据ID获取优惠券信息（管理端）")
+    @GetMapping("/mgr/getCouponInfoById/{id}")
+    public Result<CouponInfo> getCouponInfoById(
+            @Parameter(name = "id", description = "优惠券ID", required = true)
+            @PathVariable Long id) {
+        return Result.ok(couponInfoService.getCouponInfoById(id));
+    }
+
+    @Operation(summary = "根据名称分页查询优惠券信息（管理端）")
+    @GetMapping("/mgr/findCouponInfoPageByName/{page}/{limit}")
+    public Result<PageVo<CouponInfo>> findCouponInfoPageByName(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @Parameter(name = "name", description = "优惠券名称", required = false)
+            @RequestParam(required = false) String name) {
+        return Result.ok(couponInfoService.findCouponInfoPageByName(page, limit, name));
+    }
+
+    @Operation(summary = "根据状态分页查询优惠券信息（管理端）")
+    @GetMapping("/mgr/findCouponInfoPageByStatus/{page}/{limit}")
+    public Result<PageVo<CouponInfo>> findCouponInfoPageByStatus(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @Parameter(name = "status", description = "状态", required = false)
+            @RequestParam(required = false) Integer status) {
+        return Result.ok(couponInfoService.findCouponInfoPageByStatus(page, limit, status));
+    }
+
+    @Operation(summary = "更新优惠券状态（管理端）")
+    @GetMapping("/mgr/updateCouponStatusById/{id}/{status}")
+    public Result<Boolean> updateCouponStatusById(
+            @Parameter(name = "id", description = "优惠券ID", required = true)
+            @PathVariable Long id,
+            @Parameter(name = "status", description = "状态：0-未发布，1-已发布，-1-已过期", required = true)
+            @PathVariable Integer status) {
+        return Result.ok(couponInfoService.updateCouponStatusById(id, status));
+    }
 }
 

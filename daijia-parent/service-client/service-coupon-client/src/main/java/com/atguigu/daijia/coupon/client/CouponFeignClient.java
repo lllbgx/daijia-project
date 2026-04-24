@@ -1,6 +1,7 @@
 package com.atguigu.daijia.coupon.client;
 
 import com.atguigu.daijia.common.result.Result;
+import com.atguigu.daijia.model.entity.coupon.CouponInfo;
 import com.atguigu.daijia.model.form.coupon.UseCouponForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.coupon.AvailableCouponVo;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -85,5 +87,47 @@ public interface CouponFeignClient {
             @PathVariable("customerId") Long customerId,
             @PathVariable("page") Long page,
             @PathVariable("limit") Long limit);
+
+    /**
+     * 更新优惠券状态为已使用
+     * @param customerCouponId
+     * @param orderId
+     * @return
+     */
+    @PostMapping("/coupon/info/updateCouponStatus/{customerCouponId}/{orderId}")
+    Result<Boolean> updateCouponStatus(@PathVariable("customerCouponId") Long customerCouponId,
+                                     @PathVariable("orderId") Long orderId);
+
+    // ==================== 管理端Feign接口 ====================
+
+    /**
+     * 分页查询优惠券信息（管理端）
+     */
+    @GetMapping("/coupon/info/mgr/findCouponInfoPage/{page}/{limit}")
+    Result<PageVo<CouponInfo>> findCouponInfoPage(@PathVariable("page") Long page, @PathVariable("limit") Long limit);
+
+    /**
+     * 根据ID获取优惠券信息（管理端）
+     */
+    @GetMapping("/coupon/info/mgr/getCouponInfoById/{id}")
+    Result<CouponInfo> getCouponInfoById(@PathVariable("id") Long id);
+
+    /**
+     * 根据名称分页查询优惠券信息（管理端）
+     */
+    @GetMapping("/coupon/info/mgr/findCouponInfoPageByName/{page}/{limit}")
+    Result<PageVo<CouponInfo>> findCouponInfoPageByName(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestParam("name") String name);
+
+    /**
+     * 根据状态分页查询优惠券信息（管理端）
+     */
+    @GetMapping("/coupon/info/mgr/findCouponInfoPageByStatus/{page}/{limit}")
+    Result<PageVo<CouponInfo>> findCouponInfoPageByStatus(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestParam("status") Integer status);
+
+    /**
+     * 更新优惠券状态（管理端）
+     */
+    @GetMapping("/coupon/info/mgr/updateCouponStatusById/{id}/{status}")
+    Result<Boolean> updateCouponStatusById(@PathVariable("id") Long id, @PathVariable("status") Integer status);
 
 }

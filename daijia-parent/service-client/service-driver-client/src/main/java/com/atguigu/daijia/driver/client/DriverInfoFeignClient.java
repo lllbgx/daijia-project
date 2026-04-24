@@ -1,9 +1,11 @@
 package com.atguigu.daijia.driver.client;
 
 import com.atguigu.daijia.common.result.Result;
+import com.atguigu.daijia.model.entity.driver.DriverInfo;
 import com.atguigu.daijia.model.entity.driver.DriverSet;
 import com.atguigu.daijia.model.form.driver.DriverFaceModelForm;
 import com.atguigu.daijia.model.form.driver.UpdateDriverAuthInfoForm;
+import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.driver.DriverAuthInfoVo;
 import com.atguigu.daijia.model.vo.driver.DriverInfoVo;
 import com.atguigu.daijia.model.vo.driver.DriverLoginVo;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(value = "service-driver")
 public interface DriverInfoFeignClient {
@@ -104,5 +107,31 @@ public interface DriverInfoFeignClient {
      */
     @GetMapping("/driver/info/getDriverOpenId/{driverId}")
     Result<String> getDriverOpenId(@PathVariable("driverId") Long driverId);
+
+    // ==================== 管理端Feign接口 ====================
+
+    /**
+     * 分页查询司机信息（管理端）
+     */
+    @GetMapping("/driver/info/mgr/findDriverInfoPage/{page}/{limit}")
+    Result<PageVo<DriverInfo>> findDriverInfoPage(@PathVariable("page") Long page, @PathVariable("limit") Long limit);
+
+    /**
+     * 根据姓名分页查询司机信息（管理端）
+     */
+    @GetMapping("/driver/info/mgr/findDriverInfoPageByName/{page}/{limit}")
+    Result<PageVo<DriverInfo>> findDriverInfoPageByName(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestParam("name") String name);
+
+    /**
+     * 根据认证状态分页查询司机信息（管理端）
+     */
+    @GetMapping("/driver/info/mgr/findDriverInfoPageByAuthStatus/{page}/{limit}")
+    Result<PageVo<DriverInfo>> findDriverInfoPageByAuthStatus(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestParam("authStatus") Integer authStatus);
+
+    /**
+     * 更新司机状态（管理端）
+     */
+    @GetMapping("/driver/info/mgr/updateDriverStatus/{id}/{status}")
+    Result<Boolean> updateDriverStatus(@PathVariable("id") Long id, @PathVariable("status") Integer status);
 
 }

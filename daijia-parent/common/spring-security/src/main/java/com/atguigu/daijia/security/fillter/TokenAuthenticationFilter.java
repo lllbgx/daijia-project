@@ -55,6 +55,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             return;
         }
+        if(antPathMatcher.match("/mgr/**", uri)) {
+            chain.doFilter(request, response);
+            return;
+        }
 
         UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
         if(null != authentication) {

@@ -12,8 +12,10 @@ import com.atguigu.daijia.customer.service.CustomerInfoService;
 import com.atguigu.daijia.model.entity.customer.CustomerInfo;
 import com.atguigu.daijia.model.entity.customer.CustomerLoginLog;
 import com.atguigu.daijia.model.form.customer.UpdateWxPhoneForm;
+import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.customer.CustomerLoginVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -121,6 +123,52 @@ public class CustomerInfoServiceImpl extends ServiceImpl<CustomerInfoMapper, Cus
         wrapper.eq(CustomerInfo::getId, customerId);
         CustomerInfo customerInfo = customerInfoMapper.selectOne(wrapper);
         return customerInfo.getWxOpenId();
+    }
+
+    // ==================== 管理端API实现 ====================
+
+    @Override
+    public PageVo<CustomerInfo> findCustomerInfoPage(Long page, Long limit) {
+        Page<CustomerInfo> pageParam = new Page<>(page, limit);
+        Page<CustomerInfo> pageInfo = page(pageParam);
+
+        PageVo<CustomerInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public PageVo<CustomerInfo> findCustomerInfoPageByName(Long page, Long limit, String nickname) {
+        Page<CustomerInfo> pageParam = new Page<>(page, limit);
+
+        LambdaQueryWrapper<CustomerInfo> queryWrapper = new LambdaQueryWrapper<>();
+        if (nickname != null && !nickname.trim().isEmpty()) {
+            queryWrapper.like(CustomerInfo::getNickname, nickname);
+        }
+
+        Page<CustomerInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<CustomerInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public Boolean updateCustomerStatus(Long id, Integer status) {
+        CustomerInfo customerInfo = new CustomerInfo();
+        customerInfo.setId(id);
+        customerInfo.setStatus(status);
+        return updateById(customerInfo);
     }
 
 }

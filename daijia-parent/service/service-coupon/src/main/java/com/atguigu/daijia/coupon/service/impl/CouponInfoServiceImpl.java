@@ -256,6 +256,7 @@ public class CouponInfoServiceImpl extends ServiceImpl<CouponInfoMapper, CouponI
             //更新customer_coupon
             CustomerCoupon updateCustomerCoupon = new CustomerCoupon();
             updateCustomerCoupon.setId(customerCoupon.getId());
+            updateCustomerCoupon.setStatus(2); // 2：已使用
             updateCustomerCoupon.setUsedTime(new Date());
             updateCustomerCoupon.setOrderId(useCouponForm.getOrderId());
             customerCouponMapper.updateById(updateCustomerCoupon);
@@ -281,5 +282,89 @@ public class CouponInfoServiceImpl extends ServiceImpl<CouponInfoMapper, CouponI
         customerCoupon.setReceiveTime(new Date());
         customerCoupon.setStatus(1);
         customerCouponMapper.insert(customerCoupon);
+    }
+
+    @Override
+    public Boolean updateCouponStatus(Long customerCouponId, Long orderId) {
+        //更新customer_coupon
+        CustomerCoupon updateCustomerCoupon = new CustomerCoupon();
+        updateCustomerCoupon.setId(customerCouponId);
+        updateCustomerCoupon.setStatus(2); // 2：已使用
+        updateCustomerCoupon.setUsedTime(new Date());
+        updateCustomerCoupon.setOrderId(orderId);
+        int rows = customerCouponMapper.updateById(updateCustomerCoupon);
+        return rows > 0;
+    }
+
+    // ==================== 管理端API实现 ====================
+
+    @Override
+    public PageVo<CouponInfo> findCouponInfoPage(Long page, Long limit) {
+        Page<CouponInfo> pageParam = new Page<>(page, limit);
+        Page<CouponInfo> pageInfo = page(pageParam);
+
+        PageVo<CouponInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public CouponInfo getCouponInfoById(Long id) {
+        return getById(id);
+    }
+
+    @Override
+    public PageVo<CouponInfo> findCouponInfoPageByName(Long page, Long limit, String name) {
+        Page<CouponInfo> pageParam = new Page<>(page, limit);
+
+        LambdaQueryWrapper<CouponInfo> queryWrapper = new LambdaQueryWrapper<>();
+        if (name != null && !name.trim().isEmpty()) {
+            queryWrapper.like(CouponInfo::getName, name);
+        }
+
+        Page<CouponInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<CouponInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public PageVo<CouponInfo> findCouponInfoPageByStatus(Long page, Long limit, Integer status) {
+        Page<CouponInfo> pageParam = new Page<>(page, limit);
+
+        LambdaQueryWrapper<CouponInfo> queryWrapper = new LambdaQueryWrapper<>();
+        if (status != null) {
+            queryWrapper.eq(CouponInfo::getStatus, status);
+        }
+
+        Page<CouponInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<CouponInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public Boolean updateCouponStatusById(Long id, Integer status) {
+        CouponInfo couponInfo = new CouponInfo();
+        couponInfo.setId(id);
+        couponInfo.setStatus(status);
+        return updateById(couponInfo);
     }
 }

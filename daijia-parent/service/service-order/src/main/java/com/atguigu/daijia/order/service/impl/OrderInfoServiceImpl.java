@@ -3,6 +3,7 @@ package com.atguigu.daijia.order.service.impl;
 import com.atguigu.daijia.common.constant.RedisConstant;
 import com.atguigu.daijia.common.constant.SystemConstant;
 import com.atguigu.daijia.common.execption.GuiguException;
+import com.atguigu.daijia.common.result.Result;
 import com.atguigu.daijia.common.result.ResultCodeEnum;
 import com.atguigu.daijia.model.entity.order.OrderBill;
 import com.atguigu.daijia.model.entity.order.OrderInfo;
@@ -19,6 +20,7 @@ import com.atguigu.daijia.order.mapper.OrderBillMapper;
 import com.atguigu.daijia.order.mapper.OrderInfoMapper;
 import com.atguigu.daijia.order.mapper.OrderProfitsharingMapper;
 import com.atguigu.daijia.order.mapper.OrderStatusLogMapper;
+import com.atguigu.daijia.coupon.client.CouponFeignClient;
 import com.atguigu.daijia.order.service.OrderInfoService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -45,6 +47,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
     @Autowired
     private OrderStatusLogMapper orderStatusLogMapper;
+
+    @Autowired
+    private CouponFeignClient couponFeignClient;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -487,6 +492,41 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return true;
     }
 
+    @Override
+    public Boolean updateOrderPayStatusWithCoupon(String orderNo, Long customerCouponId) {
+        // 1. 更新订单支付状态
+        LambdaQueryWrapper<OrderInfo> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(OrderInfo::getOrderNo, orderNo);
+        OrderInfo orderInfo = orderInfoMapper.selectOne(wrapper);
+        if(orderInfo == null || orderInfo.getStatus() == OrderStatus.PAID.getStatus()) {
+            return true;
+        }
+
+        // 2. 更新订单状态
+        LambdaQueryWrapper<OrderInfo> updateWrapper = new LambdaQueryWrapper<>();
+        updateWrapper.eq(OrderInfo::getOrderNo, orderNo);
+
+        OrderInfo updateOrderInfo = new OrderInfo();
+        updateOrderInfo.setStatus(OrderStatus.PAID.getStatus());
+        updateOrderInfo.setPayTime(new Date());
+
+        int rows = orderInfoMapper.update(updateOrderInfo, updateWrapper);
+
+        if(rows == 1 && customerCouponId != null) {
+            // 3. 通过Feign调用优惠券服务更新状态
+            Result<Boolean> couponResult = couponFeignClient.updateCouponStatus(customerCouponId, orderInfo.getId());
+            if (couponResult.getCode() == 200 && couponResult.getData()) {
+                return true;
+            } else {
+                throw new GuiguException(ResultCodeEnum.UPDATE_ERROR);
+            }
+        } else if(rows == 1) {
+            return true;
+        } else {
+            throw new GuiguException(ResultCodeEnum.UPDATE_ERROR);
+        }
+    }
+
 
     public void log(Long orderId, Integer status) {
         OrderStatusLog orderStatusLog = new OrderStatusLog();
@@ -528,5 +568,97 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         //删除抢单标识
         redisTemplate.delete(RedisConstant.ORDER_ACCEPT_MARK);
         return true;
+    }
+
+    // ==================== 管理端API实现 ====================
+
+    @Override
+    public PageVo<OrderInfo> findOrderInfoPage(Long page, Long limit) {
+        Page<OrderInfo> pageParam = new Page<>(page, limit);
+        Page<OrderInfo> pageInfo = page(pageParam);
+
+        PageVo<OrderInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public OrderInfo getOrderInfoById(Long id) {
+        return getById(id);
+    }
+
+    @Override
+    public OrderInfo getOrderInfoByOrderNo(String orderNo) {
+        LambdaQueryWrapper<OrderInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(OrderInfo::getOrderNo, orderNo);
+        return getOne(queryWrapper);
+    }
+
+    @Override
+    public PageVo<OrderInfo> findOrderInfoPageByCustomerId(Long page, Long limit, Long customerId) {
+        Page<OrderInfo> pageParam = new Page<>(page, limit);
+
+        LambdaQueryWrapper<OrderInfo> queryWrapper = new LambdaQueryWrapper<>();
+        if (customerId != null) {
+            queryWrapper.eq(OrderInfo::getCustomerId, customerId);
+        }
+
+        Page<OrderInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<OrderInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public PageVo<OrderInfo> findOrderInfoPageByDriverId(Long page, Long limit, Long driverId) {
+        Page<OrderInfo> pageParam = new Page<>(page, limit);
+
+        LambdaQueryWrapper<OrderInfo> queryWrapper = new LambdaQueryWrapper<>();
+        if (driverId != null) {
+            queryWrapper.eq(OrderInfo::getDriverId, driverId);
+        }
+
+        Page<OrderInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<OrderInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public PageVo<OrderInfo> findOrderInfoPageByStatus(Long page, Long limit, Integer status) {
+        Page<OrderInfo> pageParam = new Page<>(page, limit);
+
+        LambdaQueryWrapper<OrderInfo> queryWrapper = new LambdaQueryWrapper<>();
+        if (status != null) {
+            queryWrapper.eq(OrderInfo::getStatus, status);
+        }
+
+        Page<OrderInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<OrderInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
     }
 }

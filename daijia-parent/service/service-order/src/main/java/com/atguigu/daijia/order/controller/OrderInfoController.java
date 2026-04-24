@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 
 @Tag(name = "订单API接口管理")
@@ -167,6 +168,82 @@ public class OrderInfoController {
     @GetMapping("/updateCouponAmount/{orderId}/{couponAmount}")
     public Result<Boolean> updateCouponAmount(@PathVariable Long orderId, @PathVariable BigDecimal couponAmount) {
         return Result.ok(orderInfoService.updateCouponAmount(orderId, couponAmount));
+    }
+
+    @Operation(summary = "更新订单支付状态和优惠券状态")
+    @PostMapping("/updateOrderPayStatusWithCoupon")
+    public Result<Boolean> updateOrderPayStatusWithCoupon(@RequestBody Map<String, Object> params) {
+        String orderNo = (String) params.get("orderNo");
+        Object couponIdObj = params.get("customerCouponId");
+        Long customerCouponId = null;
+        if (couponIdObj != null) {
+            customerCouponId = Long.valueOf(couponIdObj.toString());
+        }
+        return Result.ok(orderInfoService.updateOrderPayStatusWithCoupon(orderNo, customerCouponId));
+    }
+
+    // ==================== 管理端API ====================
+
+    @Operation(summary = "分页查询订单信息（管理端）")
+    @GetMapping("/mgr/findOrderInfoPage/{page}/{limit}")
+    public Result<PageVo<OrderInfo>> findOrderInfoPage(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit) {
+        return Result.ok(orderInfoService.findOrderInfoPage(page, limit));
+    }
+
+    @Operation(summary = "根据ID获取订单信息（管理端）")
+    @GetMapping("/mgr/getOrderInfoById/{id}")
+    public Result<OrderInfo> getOrderInfoById(
+            @Parameter(name = "id", description = "订单ID", required = true)
+            @PathVariable Long id) {
+        return Result.ok(orderInfoService.getOrderInfoById(id));
+    }
+
+    @Operation(summary = "根据订单号获取订单信息（管理端）")
+    @GetMapping("/mgr/getOrderInfoByOrderNo")
+    public Result<OrderInfo> getOrderInfoByOrderNo(
+            @Parameter(name = "orderNo", description = "订单号", required = true)
+            @RequestParam String orderNo) {
+        return Result.ok(orderInfoService.getOrderInfoByOrderNo(orderNo));
+    }
+
+    @Operation(summary = "根据乘客ID分页查询订单信息（管理端）")
+    @GetMapping("/mgr/findOrderInfoPageByCustomerId/{page}/{limit}")
+    public Result<PageVo<OrderInfo>> findOrderInfoPageByCustomerId(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @Parameter(name = "customerId", description = "乘客ID", required = false)
+            @RequestParam(required = false) Long customerId) {
+        return Result.ok(orderInfoService.findOrderInfoPageByCustomerId(page, limit, customerId));
+    }
+
+    @Operation(summary = "根据司机ID分页查询订单信息（管理端）")
+    @GetMapping("/mgr/findOrderInfoPageByDriverId/{page}/{limit}")
+    public Result<PageVo<OrderInfo>> findOrderInfoPageByDriverId(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @Parameter(name = "driverId", description = "司机ID", required = false)
+            @RequestParam(required = false) Long driverId) {
+        return Result.ok(orderInfoService.findOrderInfoPageByDriverId(page, limit, driverId));
+    }
+
+    @Operation(summary = "根据订单状态分页查询订单信息（管理端）")
+    @GetMapping("/mgr/findOrderInfoPageByStatus/{page}/{limit}")
+    public Result<PageVo<OrderInfo>> findOrderInfoPageByStatus(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @Parameter(name = "status", description = "订单状态", required = false)
+            @RequestParam(required = false) Integer status) {
+        return Result.ok(orderInfoService.findOrderInfoPageByStatus(page, limit, status));
     }
 }
 

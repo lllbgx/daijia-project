@@ -67,6 +67,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 //swg相关
                 .requestMatchers("/favicon.ico","/swagger-resources/**", "/webjars/**", "/v3/**", "/doc.html").permitAll()
+                // 放行所有 /mgr 开头的接口 ✅ 就是加这一行
+                .requestMatchers("/mgr/**").permitAll()
                 //用户登录相关接口
                 .requestMatchers("/securityLogin/login").permitAll()
                 // 对于其他任何请求，都保护起来

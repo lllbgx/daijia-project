@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 
@@ -195,4 +196,43 @@ public interface OrderInfoFeignClient {
      */
     @GetMapping("/order/info/updateCouponAmount/{orderId}/{couponAmount}")
     Result<Boolean> updateCouponAmount(@PathVariable Long orderId, @PathVariable BigDecimal couponAmount);
+
+    // ==================== 管理端Feign接口 ====================
+
+    /**
+     * 分页查询订单信息（管理端）
+     */
+    @GetMapping("/order/info/mgr/findOrderInfoPage/{page}/{limit}")
+    Result<PageVo<OrderInfo>> findOrderInfoPage(@PathVariable("page") Long page, @PathVariable("limit") Long limit);
+
+    /**
+     * 根据ID获取订单信息（管理端）
+     */
+    @GetMapping("/order/info/mgr/getOrderInfoById/{id}")
+    Result<OrderInfo> getOrderInfoById(@PathVariable("id") Long id);
+
+    /**
+     * 根据订单号获取订单信息（管理端）
+     */
+    @GetMapping("/order/info/mgr/getOrderInfoByOrderNo")
+    Result<OrderInfo> getOrderInfoByOrderNo(@RequestParam("orderNo") String orderNo);
+
+    /**
+     * 根据乘客ID分页查询订单信息（管理端）
+     */
+    @GetMapping("/order/info/mgr/findOrderInfoPageByCustomerId/{page}/{limit}")
+    Result<PageVo<OrderInfo>> findOrderInfoPageByCustomerId(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestParam("customerId") Long customerId);
+
+    /**
+     * 根据司机ID分页查询订单信息（管理端）
+     */
+    @GetMapping("/order/info/mgr/findOrderInfoPageByDriverId/{page}/{limit}")
+    Result<PageVo<OrderInfo>> findOrderInfoPageByDriverId(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestParam("driverId") Long driverId);
+
+    /**
+     * 根据订单状态分页查询订单信息（管理端）
+     */
+    @GetMapping("/order/info/mgr/findOrderInfoPageByStatus/{page}/{limit}")
+    Result<PageVo<OrderInfo>> findOrderInfoPageByStatus(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestParam("status") Integer status);
+
 }

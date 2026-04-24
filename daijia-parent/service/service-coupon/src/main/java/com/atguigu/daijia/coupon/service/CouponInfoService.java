@@ -26,4 +26,33 @@ public interface CouponInfoService extends IService<CouponInfo> {
     BigDecimal useCoupon(UseCouponForm useCouponForm);
 
     PageVo<UsedCouponVo> findUsedPage(Page<CouponInfo> pageParam, Long customerId);
+
+    Boolean updateCouponStatus(Long customerCouponId, Long orderId);
+
+    // ==================== 管理端API ====================
+
+    /**
+     * 分页查询优惠券信息
+     */
+    PageVo<CouponInfo> findCouponInfoPage(Long page, Long limit);
+
+    /**
+     * 根据ID获取优惠券信息
+     */
+    CouponInfo getCouponInfoById(Long id);
+
+    /**
+     * 根据名称分页查询优惠券信息
+     */
+    PageVo<CouponInfo> findCouponInfoPageByName(Long page, Long limit, String name);
+
+    /**
+     * 根据状态分页查询优惠券信息
+     */
+    PageVo<CouponInfo> findCouponInfoPageByStatus(Long page, Long limit, Integer status);
+
+    /**
+     * 更新优惠券状态
+     */
+    Boolean updateCouponStatusById(Long id, Integer status);
 }

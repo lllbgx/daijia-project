@@ -59,4 +59,39 @@ public interface OrderInfoService extends IService<OrderInfo> {
     void orderCancel(long parseLong);
 
     Boolean updateCouponAmount(Long orderId, BigDecimal couponAmount);
+
+    // 更新订单支付状态和优惠券状态
+    Boolean updateOrderPayStatusWithCoupon(String orderNo, Long customerCouponId);
+
+    // ==================== 管理端API ====================
+
+    /**
+     * 分页查询订单信息
+     */
+    PageVo<OrderInfo> findOrderInfoPage(Long page, Long limit);
+
+    /**
+     * 根据ID获取订单信息
+     */
+    OrderInfo getOrderInfoById(Long id);
+
+    /**
+     * 根据订单号获取订单信息
+     */
+    OrderInfo getOrderInfoByOrderNo(String orderNo);
+
+    /**
+     * 根据乘客ID分页查询订单信息
+     */
+    PageVo<OrderInfo> findOrderInfoPageByCustomerId(Long page, Long limit, Long customerId);
+
+    /**
+     * 根据司机ID分页查询订单信息
+     */
+    PageVo<OrderInfo> findOrderInfoPageByDriverId(Long page, Long limit, Long driverId);
+
+    /**
+     * 根据订单状态分页查询订单信息
+     */
+    PageVo<OrderInfo> findOrderInfoPageByStatus(Long page, Long limit, Integer status);
 }

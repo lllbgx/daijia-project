@@ -4,6 +4,7 @@ import com.atguigu.daijia.model.entity.driver.DriverInfo;
 import com.atguigu.daijia.model.entity.driver.DriverSet;
 import com.atguigu.daijia.model.form.driver.DriverFaceModelForm;
 import com.atguigu.daijia.model.form.driver.UpdateDriverAuthInfoForm;
+import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.driver.DriverAuthInfoVo;
 import com.atguigu.daijia.model.vo.driver.DriverInfoVo;
 import com.atguigu.daijia.model.vo.driver.DriverLoginVo;
@@ -42,4 +43,26 @@ public interface DriverInfoService extends IService<DriverInfo> {
     DriverInfoVo getDriverInfoOrder(Long driverId);
 
     String getDriverOpenId(Long driverId);
+
+    // ==================== 管理端API ====================
+
+    /**
+     * 分页查询司机信息
+     */
+    PageVo<DriverInfo> findDriverInfoPage(Long page, Long limit);
+
+    /**
+     * 根据姓名分页查询司机信息
+     */
+    PageVo<DriverInfo> findDriverInfoPageByName(Long page, Long limit, String name);
+
+    /**
+     * 根据认证状态分页查询司机信息
+     */
+    PageVo<DriverInfo> findDriverInfoPageByAuthStatus(Long page, Long limit, Integer authStatus);
+
+    /**
+     * 更新司机状态
+     */
+    Boolean updateDriverStatus(Long id, Integer status);
 }

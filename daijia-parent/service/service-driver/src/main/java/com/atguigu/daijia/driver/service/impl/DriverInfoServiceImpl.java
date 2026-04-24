@@ -12,10 +12,12 @@ import com.atguigu.daijia.driver.service.DriverInfoService;
 import com.atguigu.daijia.model.entity.driver.*;
 import com.atguigu.daijia.model.form.driver.DriverFaceModelForm;
 import com.atguigu.daijia.model.form.driver.UpdateDriverAuthInfoForm;
+import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.driver.DriverAuthInfoVo;
 import com.atguigu.daijia.model.vo.driver.DriverInfoVo;
 import com.atguigu.daijia.model.vo.driver.DriverLoginVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencentcloudapi.common.AbstractModel;
 import com.tencentcloudapi.common.Credential;
@@ -381,4 +383,73 @@ public class DriverInfoServiceImpl extends ServiceImpl<DriverInfoMapper, DriverI
     private Boolean detectLiveFace(String imageBase64) {
         return true;
     }
+
+    // ==================== 管理端API实现 ====================
+
+    @Override
+    public PageVo<DriverInfo> findDriverInfoPage(Long page, Long limit) {
+        Page<DriverInfo> pageParam = new Page<>(page, limit);
+        Page<DriverInfo> pageInfo = page(pageParam);
+
+        PageVo<DriverInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public PageVo<DriverInfo> findDriverInfoPageByName(Long page, Long limit, String name) {
+        Page<DriverInfo> pageParam = new Page<>(page, limit);
+
+        LambdaQueryWrapper<DriverInfo> queryWrapper = new LambdaQueryWrapper<>();
+        if (name != null && !name.trim().isEmpty()) {
+            queryWrapper.like(DriverInfo::getName, name);
+        }
+
+        Page<DriverInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<DriverInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public PageVo<DriverInfo> findDriverInfoPageByAuthStatus(Long page, Long limit, Integer authStatus) {
+        Page<DriverInfo> pageParam = new Page<>(page, limit);
+
+        LambdaQueryWrapper<DriverInfo> queryWrapper = new LambdaQueryWrapper<>();
+        if (authStatus != null) {
+            queryWrapper.eq(DriverInfo::getAuthStatus, authStatus);
+        }
+
+        Page<DriverInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<DriverInfo> pageVo = new PageVo<>();
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public Boolean updateDriverStatus(Long id, Integer status) {
+        DriverInfo driverInfo = new DriverInfo();
+        driverInfo.setId(id);
+        driverInfo.setStatus(status);
+        return updateById(driverInfo);
+    }
 }
+//    }
+//}

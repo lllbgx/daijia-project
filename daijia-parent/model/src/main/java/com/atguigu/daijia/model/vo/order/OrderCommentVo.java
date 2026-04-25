@@ -3,6 +3,8 @@ package com.atguigu.daijia.model.vo.order;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Schema(description = "订单评价信息")
 public class OrderCommentVo {
@@ -22,9 +24,6 @@ public class OrderCommentVo {
     @Schema(description = "备注")
     private String remark;
 
-    @Schema(description = "状态，1未申诉，2已申诉，3申诉失败，4申诉成功")
-    private Integer status;
-
-    @Schema(description = "申诉工作流ID")
-    private String instanceId;
+    @Schema(description = "创建时间")
+    private Date createTime;
 }

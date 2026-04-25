@@ -30,24 +30,24 @@ public class OrderCommentServiceImpl extends ServiceImpl<OrderCommentMapper, Ord
     @Override
     @Transactional
     public Boolean submitOrderComment(OrderCommentForm orderCommentForm) {
-        Long customerId = AuthContextHolder.getUserId();
+//        Long customerId = AuthContextHolder.getUserId();
 
-        // 验证订单是否存在且已完成
+        // 验证订单是否存在且已付款
         OrderInfo orderInfo = orderInfoMapper.selectById(orderCommentForm.getOrderId());
         if (orderInfo == null) {
             throw new RuntimeException("订单不存在");
         }
 
-        // 检查订单状态是否为已付款（PAID = 8）或完成（FINISH = 9）
+        // 检查订单状态是否为已付款（PAID = 8）
         Integer orderStatus = orderInfo.getStatus();
-        if (!OrderStatus.PAID.getStatus().equals(orderStatus) && !OrderStatus.FINISH.getStatus().equals(orderStatus)) {
+        if (!OrderStatus.PAID.getStatus().equals(orderStatus)) {
             throw new RuntimeException("订单未完成，无法评价");
         }
 
         // 检查是否已评价
         LambdaQueryWrapper<OrderComment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(OrderComment::getOrderId, orderCommentForm.getOrderId())
-                   .eq(OrderComment::getCustomerId, customerId);
+                   .eq(OrderComment::getCustomerId, orderCommentForm.getCustomerId());
         Long count = this.baseMapper.selectCount(queryWrapper);
         if (count > 0) {
             throw new RuntimeException("您已经评价过该订单");
@@ -56,12 +56,19 @@ public class OrderCommentServiceImpl extends ServiceImpl<OrderCommentMapper, Ord
         // 保存评价
         OrderComment orderComment = new OrderComment();
         BeanUtils.copyProperties(orderCommentForm, orderComment);
-        orderComment.setCustomerId(customerId);
+        orderComment.setDriverId(orderInfo.getDriverId());
         orderComment.setStatus(1); // 1未申诉
         orderComment.setCreateTime(new Date(System.currentTimeMillis()));
         orderComment.setUpdateTime(new Date(System.currentTimeMillis()));
+        this.save(orderComment);
 
-        return this.save(orderComment);
+        // 更新订单状态为已完成（FINISH = 9）
+        OrderInfo updateOrder = new OrderInfo();
+        updateOrder.setId(orderCommentForm.getOrderId());
+        updateOrder.setStatus(OrderStatus.FINISH.getStatus());
+        orderInfoMapper.updateById(updateOrder);
+
+        return true;
     }
 
     @Override

@@ -136,7 +136,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         });
       } else if (item.status >= config_constEnums.OrderStatus.UNPAID) {
         common_vendor.index.navigateTo({
-          url: "/pages/orderDetail/orderDetail?orderId=" + item.id
+          url: "/pages/orderDetailNew/orderDetailNew?orderId=" + item.id
         });
       } else {
         console.log("跳转正在进行的订单");

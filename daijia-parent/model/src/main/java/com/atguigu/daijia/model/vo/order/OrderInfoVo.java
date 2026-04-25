@@ -14,6 +14,12 @@ public class OrderInfoVo {
 	@Schema(description = "订单id")
 	private Long orderId;
 
+	@Schema(description = "司机id")
+	private Long driverId;
+
+	@Schema(description = "客户id")
+	private Long customerId;
+
 	@Schema(description = "订单号")
 	private String orderNo;
 

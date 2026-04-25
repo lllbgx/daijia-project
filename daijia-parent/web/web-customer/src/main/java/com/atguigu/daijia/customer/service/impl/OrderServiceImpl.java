@@ -178,6 +178,8 @@ public class OrderServiceImpl implements OrderService {
         BeanUtils.copyProperties(orderInfo,orderInfoVo);
         orderInfoVo.setOrderBillVo(orderBillVo);
         orderInfoVo.setDriverInfoVo(driverInfoVo);
+        orderInfoVo.setDriverId(driverId);
+        orderInfoVo.setCustomerId(customerId);
         return orderInfoVo;
     }
 

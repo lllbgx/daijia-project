@@ -1,0 +1,97 @@
+.container {
+  padding: 40rpx;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.star-section {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  margin-bottom: 30rpx;
+}
+
+.star-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20rpx;
+}
+
+.star {
+  font-size: 60rpx;
+  color: #ccc;
+  margin: 0 15rpx;
+  transition: color 0.2s;
+}
+
+.star.active {
+  color: #ffcc00;
+}
+
+.star-hint {
+  display: block;
+  text-align: center;
+  font-size: 28rpx;
+  color: #999;
+}
+
+.remark-section {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.remark-input {
+  width: 100%;
+  height: 200rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  background-color: #fff;
+}
+
+.btn-section {
+  display: flex;
+  padding: 0 20rpx;
+}
+
+.btn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  margin: 0 10rpx;
+}
+
+.btn-cancel {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.btn-submit {
+  background-color: #0163FF;
+  color: #fff;
+}

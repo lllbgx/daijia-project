@@ -48,6 +48,12 @@ function receiveCoupon(couponId) {
 function getCalculateDrivingLine(params) {
   return http_index.http.post("/order/calculateDrivingLine", params);
 }
+function submitOrderComment(params) {
+  return http_index.http.post("/order/comment/submit", params);
+}
+function getOrderComment(orderId) {
+  return http_index.http.get(`/order/comment/get/${orderId}`);
+}
 exports.customerCancelNoAcceptOrder = customerCancelNoAcceptOrder;
 exports.findCustomerCouponExpiredPage = findCustomerCouponExpiredPage;
 exports.findCustomerCouponNotReceivePage = findCustomerCouponNotReceivePage;
@@ -62,5 +68,7 @@ exports.getOrderDetail = getOrderDetail;
 exports.getOrderListPage = getOrderListPage;
 exports.getOrderServiceLastLocation = getOrderServiceLastLocation;
 exports.getOrderStatus = getOrderStatus;
+exports.getOrderComment = getOrderComment;
 exports.receiveCoupon = receiveCoupon;
 exports.submitOrder = submitOrder;
+exports.submitOrderComment = submitOrderComment;

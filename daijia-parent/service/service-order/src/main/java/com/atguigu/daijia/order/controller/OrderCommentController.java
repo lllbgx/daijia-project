@@ -28,7 +28,13 @@ public class OrderCommentController {
     @Operation(summary = "获取订单评价信息")
     @GetMapping("/get/{orderId}")
     public Result<OrderCommentVo> getOrderComment(@PathVariable Long orderId) {
-        return Result.ok(orderCommentService.getOrderComment(orderId));
+        // 👇 先查出来
+        OrderCommentVo commentVo = orderCommentService.getOrderComment(orderId);
+
+        // 👇 关键！打印出来看看是啥！
+        System.out.println("===== 查到的评价数据 =====");
+        System.out.println(commentVo);
+        return Result.ok(commentVo);
     }
 
     @Operation(summary = "获取司机评价统计")

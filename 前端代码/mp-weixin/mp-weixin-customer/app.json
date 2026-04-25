@@ -6,8 +6,10 @@
     "pages/creatOrder/creatOrder",
     "pages/orderList/orderList",
     "pages/orderDetail/orderDetail",
+    "pages/orderDetailNew/orderDetailNew",
     "pages/login/login",
-    "pages/paySuccess/paySuccess"
+    "pages/paySuccess/paySuccess",
+    "pages/orderComment/orderComment"
   ],
   "window": {
     "navigationBarTextStyle": "black",

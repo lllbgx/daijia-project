@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 
 @Data
 public class DriverInfoVo {
+	@Schema(description = "司机id")
+	private Long driverId;
 
 	@Schema(description = "微信openId")
 	private String wxOpenId;

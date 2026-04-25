@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 public class CustomerInfoVo {
-
+	@Schema(description = "客户id")
+	private Long customerId;
 
 	@Schema(description = "微信openId")
 	private String wxOpenId;

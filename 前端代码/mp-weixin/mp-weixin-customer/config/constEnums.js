@@ -12,6 +12,7 @@ var OrderStatus = /* @__PURE__ */ ((OrderStatus2) => {
   OrderStatus2[OrderStatus2["END_SERVICE"] = 6] = "END_SERVICE";
   OrderStatus2[OrderStatus2["UNPAID"] = 7] = "UNPAID";
   OrderStatus2[OrderStatus2["PAID"] = 8] = "PAID";
+  OrderStatus2[OrderStatus2["FINISH"] = 9] = "FINISH";
   OrderStatus2[OrderStatus2["CANCEL_ORDER"] = -1] = "CANCEL_ORDER";
   return OrderStatus2;
 })(OrderStatus || {});
@@ -58,6 +59,12 @@ const OrderStatusMap = [
     label: "已付款",
     value: 8
     /* PAID */
+  },
+  // 乘客评价后订单完成
+  {
+    label: "已完成",
+    value: 9
+    /* FINISH */
   },
   {
     label: "系统取消订单",

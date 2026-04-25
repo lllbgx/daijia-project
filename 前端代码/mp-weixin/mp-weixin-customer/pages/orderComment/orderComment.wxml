@@ -1,0 +1,30 @@
+<view class="container">
+  <view class="header">
+    <text class="title">服务评价</text>
+  </view>
+
+  <view class="star-section">
+    <view class="star-row">
+      <text class="star {{index < rate ? 'active' : ''}}"
+            wx:for="{{stars}}"
+            wx:key="*this"
+            data-rate="{{item}}"
+            bindtap="selectStar">★</text>
+    </view>
+    <text class="star-hint">{{rate}}星服务</text>
+  </view>
+
+  <view class="remark-section">
+    <text class="section-title">描述您的体验（选填）</text>
+    <textarea class="remark-input"
+              placeholder="请输入评价描述"
+              bindinput="onInput"
+              value="{{remark}}"
+              maxlength="200"></textarea>
+  </view>
+
+  <view class="btn-section">
+    <button class="btn btn-cancel" bindtap="onCancel">取消</button>
+    <button class="btn btn-submit" bindtap="onSubmit">提交</button>
+  </view>
+</view>

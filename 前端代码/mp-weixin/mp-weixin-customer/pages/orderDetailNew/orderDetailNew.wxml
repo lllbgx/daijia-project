@@ -1,0 +1,64 @@
+<view class="container">
+  <!-- 司机信息区域 -->
+  <view class="driver-section" wx:if="{{driverInfo}}">
+    <view class="driver-info">
+      <image class="driver-avatar" src="{{driverInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="driver-detail">
+        <text class="driver-name">{{driverInfo.name}}</text>
+        <text class="driver-license">驾龄{{driverInfo.driverLicenseAge}}年</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 位置信息 -->
+  <view class="location-section">
+    <view class="location-item">
+      <view class="location-dot start"></view>
+      <text class="location-text">{{startLocation}}</text>
+      <text class="location-label">出发地</text>
+    </view>
+    <view class="location-item">
+      <view class="location-dot end"></view>
+      <text class="location-text">{{endLocation}}</text>
+      <text class="location-label">目的地</text>
+    </view>
+  </view>
+
+  <!-- 时间信息 -->
+  <view class="time-section">
+    <text class="time-text">{{createTime}}</text>
+  </view>
+
+  <!-- 费用明细 -->
+  <view class="fee-section">
+    <view class="fee-title">费用明细</view>
+    <view class="fee-list">
+      <view class="fee-item" wx:for="{{feeList}}" wx:key="label">
+        <text class="fee-label">{{item.label}}</text>
+        <text class="fee-value">{{item.value}}元</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 评价详情（状态9显示） -->
+  <view class="comment-section" wx:if="{{status == 9 && orderComment}}">
+    <view class="comment-title">您的评价</view>
+    <view class="comment-stars">
+      <text class="star" wx:for="{{[1,2,3,4,5]}}" wx:key="*this"
+            style="color: {{item <= commentRate ? '#ffcc00' : '#ccc'}}">★</text>
+    </view>
+    <view class="comment-remark">
+      <text>{{orderComment.remark || '该司机服务很好'}}</text>
+    </view>
+  </view>
+
+  <!-- 评价按钮（状态8显示） -->
+  <view class="comment-btn-section" wx:if="{{status == 8}}">
+    <button class="btn-comment" bindtap="goComment">评价</button>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="bottom-section">
+    <button class="btn-back" bindtap="goBack">返回</button>
+  </view>
+</view>

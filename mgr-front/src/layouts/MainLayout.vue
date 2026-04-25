@@ -27,6 +27,10 @@
           <el-icon><Document /></el-icon>
           <span>订单管理</span>
         </el-menu-item>
+        <el-menu-item index="/log">
+          <el-icon><List /></el-icon>
+          <span>日志管理</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -56,7 +60,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { User, Van, Ticket, Document, ArrowDown } from '@element-plus/icons-vue'
+import { User, Van, Ticket, Document, ArrowDown, List } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const activeMenu = computed(() => route.path)

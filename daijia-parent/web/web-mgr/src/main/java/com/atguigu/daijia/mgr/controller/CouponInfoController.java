@@ -3,6 +3,7 @@ package com.atguigu.daijia.mgr.controller;
 import com.atguigu.daijia.common.result.Result;
 import com.atguigu.daijia.coupon.client.CouponFeignClient;
 import com.atguigu.daijia.model.entity.coupon.CouponInfo;
+import com.atguigu.daijia.model.form.coupon.CouponQueryForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -71,5 +72,30 @@ public class CouponInfoController {
             @Parameter(name = "status", description = "状态：0-未发布，1-已发布，-1-已过期", required = true)
             @PathVariable Integer status) {
         return couponFeignClient.updateCouponStatusById(id, status);
+    }
+
+    @Operation(summary = "根据多条件分页查询优惠券信息")
+    @PostMapping("/findCouponInfoPageByCondition/{page}/{limit}")
+    public Result<PageVo<CouponInfo>> findCouponInfoPageByCondition(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @RequestBody CouponQueryForm couponQueryForm) {
+        return couponFeignClient.findCouponInfoPageByCondition(page, limit, couponQueryForm);
+    }
+
+    @Operation(summary = "新增优惠券")
+    @PostMapping("/addCoupon")
+    public Result<Boolean> addCoupon(@RequestBody CouponInfo couponInfo) {
+        return couponFeignClient.addCoupon(couponInfo);
+    }
+
+    @Operation(summary = "删除优惠券")
+    @DeleteMapping("/deleteCoupon/{id}")
+    public Result<Boolean> deleteCoupon(
+            @Parameter(name = "id", description = "优惠券ID", required = true)
+            @PathVariable Long id) {
+        return couponFeignClient.deleteCoupon(id);
     }
 }

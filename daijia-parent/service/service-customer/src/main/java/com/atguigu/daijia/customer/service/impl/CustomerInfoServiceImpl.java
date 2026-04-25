@@ -65,6 +65,7 @@ public class CustomerInfoServiceImpl extends ServiceImpl<CustomerInfoMapper, Cus
             // 4. 登录日志
             CustomerLoginLog customerLoginLog = new CustomerLoginLog();
             customerLoginLog.setCustomerId(customerInfo.getId());
+            customerLoginLog.setIpaddr("127.0.0.1");
             customerLoginLog.setMsg("小程序登录");
             customerLoginLogMapper.insert(customerLoginLog);
 

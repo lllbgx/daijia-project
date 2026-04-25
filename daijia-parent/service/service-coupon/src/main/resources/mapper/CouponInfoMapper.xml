@@ -86,6 +86,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		where
 			info.status = 1
 		  and info.receive_count &lt; info.publish_count
+		  and info.is_deleted = 0
 		  and (
 					info.per_limit =0 or info.per_limit > cus_coup.cnt or cus_coup.cnt is null
 			)

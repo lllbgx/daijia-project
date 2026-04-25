@@ -3,6 +3,7 @@ package com.atguigu.daijia.mgr.controller;
 import com.atguigu.daijia.common.result.Result;
 import com.atguigu.daijia.driver.client.DriverInfoFeignClient;
 import com.atguigu.daijia.model.entity.driver.DriverInfo;
+import com.atguigu.daijia.model.form.driver.DriverQueryForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -63,6 +64,17 @@ public class DriverInfoController {
             @Parameter(name = "status", description = "状态：1正常，2禁用", required = true)
             @PathVariable Integer status) {
         return driverInfoFeignClient.updateDriverStatus(id, status);
+    }
+
+    @Operation(summary = "根据多条件分页查询司机信息")
+    @PostMapping("/findDriverInfoPageByCondition/{page}/{limit}")
+    public Result<PageVo<DriverInfo>> findDriverInfoPageByCondition(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @RequestBody DriverQueryForm driverQueryForm) {
+        return driverInfoFeignClient.findDriverInfoPageByCondition(page, limit, driverQueryForm);
     }
 }
 

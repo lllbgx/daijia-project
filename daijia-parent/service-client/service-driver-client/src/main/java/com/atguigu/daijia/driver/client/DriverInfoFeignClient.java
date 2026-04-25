@@ -4,6 +4,7 @@ import com.atguigu.daijia.common.result.Result;
 import com.atguigu.daijia.model.entity.driver.DriverInfo;
 import com.atguigu.daijia.model.entity.driver.DriverSet;
 import com.atguigu.daijia.model.form.driver.DriverFaceModelForm;
+import com.atguigu.daijia.model.form.driver.DriverQueryForm;
 import com.atguigu.daijia.model.form.driver.UpdateDriverAuthInfoForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.driver.DriverAuthInfoVo;
@@ -133,5 +134,11 @@ public interface DriverInfoFeignClient {
      */
     @GetMapping("/driver/info/mgr/updateDriverStatus/{id}/{status}")
     Result<Boolean> updateDriverStatus(@PathVariable("id") Long id, @PathVariable("status") Integer status);
+
+    /**
+     * 根据多条件分页查询司机信息（管理端）
+     */
+    @PostMapping("/driver/info/mgr/findDriverInfoPageByCondition/{page}/{limit}")
+    Result<PageVo<DriverInfo>> findDriverInfoPageByCondition(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestBody DriverQueryForm driverQueryForm);
 
 }

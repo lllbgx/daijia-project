@@ -3,6 +3,7 @@ package com.atguigu.daijia.order.controller;
 import com.atguigu.daijia.common.result.Result;
 import com.atguigu.daijia.model.entity.order.OrderInfo;
 import com.atguigu.daijia.model.form.order.OrderInfoForm;
+import com.atguigu.daijia.model.form.order.OrderQueryForm;
 import com.atguigu.daijia.model.form.order.StartDriveForm;
 import com.atguigu.daijia.model.form.order.UpdateOrderBillForm;
 import com.atguigu.daijia.model.form.order.UpdateOrderCartForm;
@@ -244,6 +245,18 @@ public class OrderInfoController {
             @Parameter(name = "status", description = "订单状态", required = false)
             @RequestParam(required = false) Integer status) {
         return Result.ok(orderInfoService.findOrderInfoPageByStatus(page, limit, status));
+    }
+
+    @Operation(summary = "根据多条件分页查询订单信息（管理端）")
+    @PostMapping("/mgr/findOrderInfoPageByCondition/{page}/{limit}")
+    public Result<PageVo<OrderInfo>> findOrderInfoPageByCondition(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @RequestBody OrderQueryForm orderQueryForm) {
+        Page<OrderInfo> pageParam = new Page<>(page, limit);
+        return Result.ok(orderInfoService.findOrderInfoPageByCondition(pageParam, orderQueryForm));
     }
 }
 

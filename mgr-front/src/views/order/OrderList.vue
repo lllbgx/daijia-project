@@ -163,18 +163,27 @@ const getStatusText = (status) => {
 const fetchData = async () => {
   loading.value = true
   try {
-    let result
+    // 使用多条件查询 API
+    const conditions = {}
     if (searchForm.orderNo) {
-      result = { records: [await orderApi.getOrderInfoByOrderNo(searchForm.orderNo)], total: 1 }
-    } else if (searchForm.customerId) {
-      result = await orderApi.findOrderInfoPageByCustomerId(currentPage.value, pageSize.value, searchForm.customerId)
-    } else if (searchForm.driverId) {
-      result = await orderApi.findOrderInfoPageByDriverId(currentPage.value, pageSize.value, searchForm.driverId)
-    } else if (searchForm.status !== null) {
-      result = await orderApi.findOrderInfoPageByStatus(currentPage.value, pageSize.value, searchForm.status)
-    } else {
-      result = await orderApi.findOrderInfoPage(currentPage.value, pageSize.value)
+      conditions.orderNo = searchForm.orderNo
     }
+    if (searchForm.customerId) {
+      conditions.customerId = searchForm.customerId
+    }
+    if (searchForm.driverId) {
+      conditions.driverId = searchForm.driverId
+    }
+    if (searchForm.status !== null) {
+      conditions.status = searchForm.status
+    }
+
+    // 如果有条件，使用多条件查询；否则使用普通分页查询
+    const hasCondition = Object.keys(conditions).length > 0
+    const result = hasCondition
+      ? await orderApi.findOrderInfoPageByCondition(currentPage.value, pageSize.value, conditions)
+      : await orderApi.findOrderInfoPage(currentPage.value, pageSize.value)
+
     tableData.value = result.records || []
     total.value = result.total || 0
   } catch (error) {

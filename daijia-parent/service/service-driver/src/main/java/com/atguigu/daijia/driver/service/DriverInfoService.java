@@ -3,11 +3,13 @@ package com.atguigu.daijia.driver.service;
 import com.atguigu.daijia.model.entity.driver.DriverInfo;
 import com.atguigu.daijia.model.entity.driver.DriverSet;
 import com.atguigu.daijia.model.form.driver.DriverFaceModelForm;
+import com.atguigu.daijia.model.form.driver.DriverQueryForm;
 import com.atguigu.daijia.model.form.driver.UpdateDriverAuthInfoForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.driver.DriverAuthInfoVo;
 import com.atguigu.daijia.model.vo.driver.DriverInfoVo;
 import com.atguigu.daijia.model.vo.driver.DriverLoginVo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 public interface DriverInfoService extends IService<DriverInfo> {
@@ -65,4 +67,9 @@ public interface DriverInfoService extends IService<DriverInfo> {
      * 更新司机状态
      */
     Boolean updateDriverStatus(Long id, Integer status);
+
+    /**
+     * 根据多条件分页查询司机信息
+     */
+    PageVo<DriverInfo> findDriverInfoPageByCondition(Page<DriverInfo> pageParam, DriverQueryForm driverQueryForm);
 }

@@ -51,14 +51,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 antPathMatcher.match("/webjars/**", uri) ||
                 antPathMatcher.match("/v3/**", uri) ||
                 antPathMatcher.match("/doc.html", uri) ||
-                antPathMatcher.match("/favicon.ico", uri)) {
+                antPathMatcher.match("/favicon.ico", uri) ||
+                antPathMatcher.match("/mgr/**", uri)) {
             chain.doFilter(request, response);
             return;
         }
-        if(antPathMatcher.match("/mgr/**", uri)) {
-            chain.doFilter(request, response);
-            return;
-        }
+//        if(antPathMatcher.match("/mgr/**", uri)) {
+//            chain.doFilter(request, response);
+//            return;
+//        }
 
         UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
         if(null != authentication) {

@@ -5,6 +5,7 @@ import com.atguigu.daijia.driver.service.DriverInfoService;
 import com.atguigu.daijia.model.entity.driver.DriverInfo;
 import com.atguigu.daijia.model.entity.driver.DriverSet;
 import com.atguigu.daijia.model.form.driver.DriverFaceModelForm;
+import com.atguigu.daijia.model.form.driver.DriverQueryForm;
 import com.atguigu.daijia.model.form.driver.UpdateDriverAuthInfoForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.driver.DriverAuthInfoVo;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 @Slf4j
 @Tag(name = "司机API接口管理")
@@ -144,6 +146,18 @@ public class DriverInfoController {
             @Parameter(name = "status", description = "状态：1正常，2禁用", required = true)
             @PathVariable Integer status) {
         return Result.ok(driverInfoService.updateDriverStatus(id, status));
+    }
+
+    @Operation(summary = "根据多条件分页查询司机信息（管理端）")
+    @PostMapping("/mgr/findDriverInfoPageByCondition/{page}/{limit}")
+    public Result<PageVo<DriverInfo>> findDriverInfoPageByCondition(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @RequestBody DriverQueryForm driverQueryForm) {
+        Page<DriverInfo> pageParam = new Page<>(page, limit);
+        return Result.ok(driverInfoService.findDriverInfoPageByCondition(pageParam, driverQueryForm));
     }
 }
 

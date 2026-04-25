@@ -1,6 +1,7 @@
 package com.atguigu.daijia.model.entity.customer;
 
 import com.atguigu.daijia.model.entity.base.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class CustomerLoginLog extends BaseEntity {
 	private Long customerId;
 
 	@Schema(description = "登录IP地址")
+	@TableField("ipaddr")
 	private String ipaddr;
 
 	@Schema(description = "登录状态（0成功 1失败）")

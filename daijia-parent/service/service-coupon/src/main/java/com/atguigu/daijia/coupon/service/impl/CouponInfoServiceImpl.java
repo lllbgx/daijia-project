@@ -8,6 +8,7 @@ import com.atguigu.daijia.coupon.mapper.CustomerCouponMapper;
 import com.atguigu.daijia.coupon.service.CouponInfoService;
 import com.atguigu.daijia.model.entity.coupon.CouponInfo;
 import com.atguigu.daijia.model.entity.coupon.CustomerCoupon;
+import com.atguigu.daijia.model.form.coupon.CouponQueryForm;
 import com.atguigu.daijia.model.form.coupon.UseCouponForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.coupon.AvailableCouponVo;
@@ -23,7 +24,9 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -366,5 +369,55 @@ public class CouponInfoServiceImpl extends ServiceImpl<CouponInfoMapper, CouponI
         couponInfo.setId(id);
         couponInfo.setStatus(status);
         return updateById(couponInfo);
+    }
+
+    @Override
+    public PageVo<CouponInfo> findCouponInfoPageByCondition(Page<CouponInfo> pageParam, CouponQueryForm couponQueryForm) {
+        LambdaQueryWrapper<CouponInfo> queryWrapper = new LambdaQueryWrapper<>();
+
+        if (couponQueryForm != null) {
+            if (StringUtils.hasText(couponQueryForm.getName())) {
+                queryWrapper.like(CouponInfo::getName, couponQueryForm.getName());
+            }
+            if (couponQueryForm.getStatus() != null) {
+                queryWrapper.eq(CouponInfo::getStatus, couponQueryForm.getStatus());
+            }
+        }
+
+        Page<CouponInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<CouponInfo> pageVo = new PageVo<>();
+        pageVo.setPage(pageParam.getCurrent());
+        pageVo.setLimit(pageParam.getSize());
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    @Transactional
+    public Boolean addCoupon(CouponInfo couponInfo) {
+        if (couponInfo == null) {
+            throw new GuiguException(ResultCodeEnum.DATA_ERROR);
+        }
+        // 设置默认值
+        couponInfo.setStatus(1); // 默认启用
+        couponInfo.setReceiveCount(0); // 已领取数量为0
+        return save(couponInfo);
+    }
+
+    @Override
+    @Transactional
+    public Boolean deleteCoupon(Long id) {
+        if (id == null) {
+            throw new GuiguException(ResultCodeEnum.DATA_ERROR);
+        }
+//        LambdaQueryWrapper<CouponInfo> wrapper = new LambdaQueryWrapper<>();
+//        wrapper.eq(CouponInfo::getId, id);
+//        CouponInfo couponInfo = new CouponInfo();
+//        couponInfo.setIsDeleted(1);
+        return baseMapper.deleteById(id) > 0;
     }
 }

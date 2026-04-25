@@ -34,16 +34,21 @@
 
     <el-table :data="tableData" v-loading="loading" border style="width: 100%">
       <el-table-column type="index" label="序号" min-width="60" />
-      <el-table-column prop="id" label="ID" min-width="60" />
-      <el-table-column prop="name" label="优惠券名称" min-width="150" />
-      <el-table-column prop="couponType" label="优惠券类型" min-width="90">
+      <el-table-column prop="id" label="券id" min-width="60" />
+      <el-table-column prop="name" label="优惠券名称" min-width="100" />
+      <el-table-column prop="couponType" label="类型" min-width="90">
         <template #default="{ row }">
           {{ row.couponType === 1 ? '现金券' : '折扣券' }}
         </template>
       </el-table-column>
       <el-table-column prop="amount" label="优惠金额" min-width="90">
         <template #default="{ row }">
-          ￥{{ row.amount }}
+          {{ row.couponType === 1 ? '￥' + row.amount : '无' }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="discount" label="折扣比例" min-width="90">
+        <template #default="{ row }">
+          {{ row.discount != null ? (row.discount / 10).toFixed(2) + '折' : '无' }}
         </template>
       </el-table-column>
       <el-table-column prop="conditionAmount" label="使用门槛" min-width="110">
@@ -51,8 +56,12 @@
           满 ￥{{ row.conditionAmount }} 可用
         </template>
       </el-table-column>
-      <el-table-column prop="totalNum" label="发放数量" min-width="90" />
-      <el-table-column prop="remainNum" label="剩余数量" min-width="90" />
+      <el-table-column prop="publishCount" label="发放数量" min-width="90" />
+      <el-table-column label="剩余数量" min-width="90">
+        <template #default="{ row }">
+          {{ row.publishCount - row.receiveCount || 0 }}
+        </template>
+      </el-table-column>
       <el-table-column prop="perLimit" label="每人限领" min-width="90" />
       <el-table-column prop="status" label="状态" min-width="80">
         <template #default="{ row }">
@@ -62,6 +71,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="expireTime" label="过期时间" min-width="160" />
+      <el-table-column prop="description" label="详情描述" min-width="100" show-overflow-tooltip />
       <el-table-column label="操作" min-width="130" fixed="right">
         <template #default="{ row }">
           <el-button type="primary" size="small" @click="handleEdit(row)">
@@ -93,8 +103,8 @@
       width="600px"
     >
       <el-form :model="formData" :rules="rules" ref="formRef" label-width="120px">
-        <el-form-item label="优惠券名称" prop="couponName">
-          <el-input v-model="formData.couponName" placeholder="请输入优惠券名称" />
+        <el-form-item label="优惠券名称" prop="name">
+          <el-input v-model="formData.name" placeholder="请输入优惠券名称" />
         </el-form-item>
         <el-form-item label="优惠券类型" prop="couponType">
           <el-radio-group v-model="formData.couponType">
@@ -102,16 +112,20 @@
             <el-radio :value="2">折扣券</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="优惠金额" prop="amount">
+        <el-form-item label="优惠金额" prop="amount" v-if="formData.couponType === 1">
           <el-input-number v-model="formData.amount" :min="0" :precision="2" :step="0.01" />
           <span style="margin-left: 10px;">元</span>
         </el-form-item>
-        <el-form-item label="使用门槛" prop="conditionAmount" v-if="formData.couponType === 1">
+        <el-form-item label="折扣比例" prop="discount" v-if="formData.couponType === 2">
+          <el-input-number v-model="formData.discount" :min="1" :max="100" :precision="0" />
+          <span style="margin-left: 10px;">%</span>
+        </el-form-item>
+        <el-form-item label="使用门槛" prop="conditionAmount">
           <el-input-number v-model="formData.conditionAmount" :min="0" :precision="2" :step="0.01" />
           <span style="margin-left: 10px;">元</span>
         </el-form-item>
-        <el-form-item label="发放数量" prop="totalNum">
-          <el-input-number v-model="formData.totalNum" :min="1" />
+        <el-form-item label="发放数量" prop="publishCount">
+          <el-input-number v-model="formData.publishCount" :min="1" />
           <span style="margin-left: 10px;">张</span>
         </el-form-item>
         <el-form-item label="每人限领" prop="perLimit">
@@ -126,6 +140,9 @@
             format="YYYY-MM-DD HH:mm:ss"
             value-format="YYYY-MM-DD HH:mm:ss"
           />
+        </el-form-item>
+        <el-form-item label="详情描述" prop="description">
+          <el-input v-model="formData.description" type="textarea" placeholder="请输入优惠券描述" rows="3" />
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-switch
@@ -167,39 +184,48 @@ const searchForm = reactive({
 
 const formData = reactive({
   id: null,
-  couponName: '',
+  name: '',
   couponType: 1,
   amount: 0,
+  discount: null,
   conditionAmount: 0,
-  totalNum: 100,
+  publishCount: 100,
   perLimit: 1,
   expireTime: '',
+  description: '',
   status: 1
 })
 
 const rules = {
-  couponName: [{ required: true, message: '请输入优惠券名称', trigger: 'blur' }],
+  name: [{ required: true, message: '请输入优惠券名称', trigger: 'blur' }],
   couponType: [{ required: true, message: '请选择优惠券类型', trigger: 'change' }],
   amount: [{ required: true, message: '请输入优惠金额', trigger: 'blur' }],
+  discount: [{ required: true, message: '请输入折扣比例', trigger: 'blur' }],
   conditionAmount: [{ required: true, message: '请输入使用门槛', trigger: 'blur' }],
-  totalNum: [{ required: true, message: '请输入发放数量', trigger: 'blur' }],
+  publishCount: [{ required: true, message: '请输入发放数量', trigger: 'blur' }],
   perLimit: [{ required: true, message: '请输入每人限领数量', trigger: 'blur' }],
-  expireTime: [{ required: true, message: '请选择过期时间', trigger: 'change' }]
+  expireTime: [{ required: true, message: '请选择过期时间', trigger: 'change' }],
+  description: [{ required: false }]
 }
 
 const fetchData = async () => {
   loading.value = true
   try {
-    let result
-    if (searchForm.name && searchForm.status !== null) {
-      result = await couponApi.findCouponInfoPageByName(currentPage.value, pageSize.value, searchForm.name)
-    } else if (searchForm.name) {
-      result = await couponApi.findCouponInfoPageByName(currentPage.value, pageSize.value, searchForm.name)
-    } else if (searchForm.status !== null) {
-      result = await couponApi.findCouponInfoPageByStatus(currentPage.value, pageSize.value, searchForm.status)
-    } else {
-      result = await couponApi.findCouponInfoPage(currentPage.value, pageSize.value)
+    // 使用多条件查询 API
+    const conditions = {}
+    if (searchForm.name) {
+      conditions.name = searchForm.name
     }
+    if (searchForm.status !== null) {
+      conditions.status = searchForm.status
+    }
+
+    // 如果有条件，使用多条件查询；否则使用普通分页查询
+    const hasCondition = Object.keys(conditions).length > 0
+    const result = hasCondition
+      ? await couponApi.findCouponInfoPageByCondition(currentPage.value, pageSize.value, conditions)
+      : await couponApi.findCouponInfoPage(currentPage.value, pageSize.value)
+
     tableData.value = result.records || []
     total.value = result.total || 0
   } catch (error) {
@@ -225,13 +251,15 @@ const handleAdd = () => {
   isEdit.value = false
   Object.assign(formData, {
     id: null,
-    couponName: '',
+    name: '',
     couponType: 1,
     amount: 0,
+    discount: null,
     conditionAmount: 0,
-    totalNum: 100,
+    publishCount: 100,
     perLimit: 1,
     expireTime: '',
+    description: '',
     status: 1
   })
   dialogVisible.value = true

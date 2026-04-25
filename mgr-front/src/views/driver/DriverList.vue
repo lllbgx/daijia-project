@@ -127,17 +127,21 @@ const getAuthStatusText = (status) => {
 const fetchData = async () => {
   loading.value = true
   try {
-    let result
-    if (searchForm.name && searchForm.authStatus !== null) {
-      // 同时有姓名和认证状态，这里简化处理，优先按姓名搜索
-      result = await driverApi.findDriverInfoPageByName(currentPage.value, pageSize.value, searchForm.name)
-    } else if (searchForm.name) {
-      result = await driverApi.findDriverInfoPageByName(currentPage.value, pageSize.value, searchForm.name)
-    } else if (searchForm.authStatus !== null) {
-      result = await driverApi.findDriverInfoPageByAuthStatus(currentPage.value, pageSize.value, searchForm.authStatus)
-    } else {
-      result = await driverApi.findDriverInfoPage(currentPage.value, pageSize.value)
+    // 使用多条件查询 API
+    const conditions = {}
+    if (searchForm.name) {
+      conditions.name = searchForm.name
     }
+    if (searchForm.authStatus !== null) {
+      conditions.authStatus = searchForm.authStatus
+    }
+
+    // 如果有条件，使用多条件查询；否则使用普通分页查询
+    const hasCondition = Object.keys(conditions).length > 0
+    const result = hasCondition
+      ? await driverApi.findDriverInfoPageByCondition(currentPage.value, pageSize.value, conditions)
+      : await driverApi.findDriverInfoPage(currentPage.value, pageSize.value)
+
     tableData.value = result.records || []
     total.value = result.total || 0
   } catch (error) {

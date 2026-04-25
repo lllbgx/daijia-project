@@ -11,6 +11,7 @@ import com.atguigu.daijia.driver.service.CosService;
 import com.atguigu.daijia.driver.service.DriverInfoService;
 import com.atguigu.daijia.model.entity.driver.*;
 import com.atguigu.daijia.model.form.driver.DriverFaceModelForm;
+import com.atguigu.daijia.model.form.driver.DriverQueryForm;
 import com.atguigu.daijia.model.form.driver.UpdateDriverAuthInfoForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.driver.DriverAuthInfoVo;
@@ -107,6 +108,7 @@ public class DriverInfoServiceImpl extends ServiceImpl<DriverInfoMapper, DriverI
             DriverLoginLog driverLoginLog = new DriverLoginLog();
             driverLoginLog.setDriverId(driverInfo.getId());
             driverLoginLog.setMsg("小程序登录");
+            driverLoginLog.setIpaddr("127.0.0.1");
             driverLoginLogMapper.insert(driverLoginLog);
 
             //返回司机id
@@ -449,6 +451,34 @@ public class DriverInfoServiceImpl extends ServiceImpl<DriverInfoMapper, DriverI
         driverInfo.setId(id);
         driverInfo.setStatus(status);
         return updateById(driverInfo);
+    }
+
+    @Override
+    public PageVo<DriverInfo> findDriverInfoPageByCondition(Page<DriverInfo> pageParam, DriverQueryForm driverQueryForm) {
+        LambdaQueryWrapper<DriverInfo> queryWrapper = new LambdaQueryWrapper<>();
+
+        if (driverQueryForm != null) {
+            if (StringUtils.hasText(driverQueryForm.getName())) {
+                queryWrapper.like(DriverInfo::getName, driverQueryForm.getName());
+            }
+            if (driverQueryForm.getAuthStatus() != null) {
+                queryWrapper.eq(DriverInfo::getAuthStatus, driverQueryForm.getAuthStatus());
+            }
+            if (driverQueryForm.getStatus() != null) {
+                queryWrapper.eq(DriverInfo::getStatus, driverQueryForm.getStatus());
+            }
+        }
+
+        Page<DriverInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<DriverInfo> pageVo = new PageVo<>();
+        pageVo.setPage(pageParam.getCurrent());
+        pageVo.setLimit(pageParam.getSize());
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
     }
 }
 //    }

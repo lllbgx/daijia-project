@@ -2,6 +2,7 @@ package com.atguigu.daijia.mgr.controller;
 
 import com.atguigu.daijia.common.result.Result;
 import com.atguigu.daijia.model.entity.order.OrderInfo;
+import com.atguigu.daijia.model.form.order.OrderQueryForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.order.client.OrderInfoFeignClient;
 import io.swagger.v3.oas.annotations.Operation;
@@ -81,6 +82,17 @@ public class OrderInfoController {
             @Parameter(name = "status", description = "订单状态", required = false)
             @RequestParam(required = false) Integer status) {
         return orderInfoFeignClient.findOrderInfoPageByStatus(page, limit, status);
+    }
+
+    @Operation(summary = "根据多条件分页查询订单信息")
+    @PostMapping("/findOrderInfoPageByCondition/{page}/{limit}")
+    public Result<PageVo<OrderInfo>> findOrderInfoPageByCondition(
+            @Parameter(name = "page", description = "当前页码", required = true)
+            @PathVariable Long page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @RequestBody OrderQueryForm orderQueryForm) {
+        return orderInfoFeignClient.findOrderInfoPageByCondition(page, limit, orderQueryForm);
     }
 }
 

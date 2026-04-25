@@ -33,5 +33,14 @@ export const driverApi = {
       url: `/mgr/driver/info/updateDriverStatus/${id}/${status}`,
       method: 'put'
     })
+  },
+
+  // 根据多条件分页查询司机
+  findDriverInfoPageByCondition(page, limit, conditions) {
+    return request({
+      url: `/mgr/driver/info/findDriverInfoPageByCondition/${page}/${limit}`,
+      method: 'post',
+      data: conditions
+    })
   }
 }

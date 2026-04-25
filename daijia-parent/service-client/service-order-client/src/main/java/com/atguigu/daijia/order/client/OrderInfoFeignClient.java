@@ -3,6 +3,7 @@ package com.atguigu.daijia.order.client;
 import com.atguigu.daijia.common.result.Result;
 import com.atguigu.daijia.model.entity.order.OrderInfo;
 import com.atguigu.daijia.model.form.order.OrderInfoForm;
+import com.atguigu.daijia.model.form.order.OrderQueryForm;
 import com.atguigu.daijia.model.form.order.StartDriveForm;
 import com.atguigu.daijia.model.form.order.UpdateOrderBillForm;
 import com.atguigu.daijia.model.form.order.UpdateOrderCartForm;
@@ -234,5 +235,11 @@ public interface OrderInfoFeignClient {
      */
     @GetMapping("/order/info/mgr/findOrderInfoPageByStatus/{page}/{limit}")
     Result<PageVo<OrderInfo>> findOrderInfoPageByStatus(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestParam("status") Integer status);
+
+    /**
+     * 根据多条件分页查询订单信息（管理端）
+     */
+    @PostMapping("/order/info/mgr/findOrderInfoPageByCondition/{page}/{limit}")
+    Result<PageVo<OrderInfo>> findOrderInfoPageByCondition(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestBody OrderQueryForm orderQueryForm);
 
 }

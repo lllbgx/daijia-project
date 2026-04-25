@@ -11,6 +11,7 @@ import com.atguigu.daijia.model.entity.order.OrderProfitsharing;
 import com.atguigu.daijia.model.entity.order.OrderStatusLog;
 import com.atguigu.daijia.model.enums.OrderStatus;
 import com.atguigu.daijia.model.form.order.OrderInfoForm;
+import com.atguigu.daijia.model.form.order.OrderQueryForm;
 import com.atguigu.daijia.model.form.order.StartDriveForm;
 import com.atguigu.daijia.model.form.order.UpdateOrderBillForm;
 import com.atguigu.daijia.model.form.order.UpdateOrderCartForm;
@@ -31,6 +32,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.xml.crypto.Data;
 import java.math.BigDecimal;
@@ -655,6 +657,37 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         PageVo<OrderInfo> pageVo = new PageVo<>();
         pageVo.setPage(page);
         pageVo.setLimit(limit);
+        pageVo.setTotal(pageInfo.getTotal());
+        pageVo.setPages(pageInfo.getPages());
+        pageVo.setRecords(pageInfo.getRecords());
+
+        return pageVo;
+    }
+
+    @Override
+    public PageVo<OrderInfo> findOrderInfoPageByCondition(Page<OrderInfo> pageParam, OrderQueryForm orderQueryForm) {
+        LambdaQueryWrapper<OrderInfo> queryWrapper = new LambdaQueryWrapper<>();
+
+        if (orderQueryForm != null) {
+            if (StringUtils.hasText(orderQueryForm.getOrderNo())) {
+                queryWrapper.eq(OrderInfo::getOrderNo, orderQueryForm.getOrderNo());
+            }
+            if (orderQueryForm.getCustomerId() != null) {
+                queryWrapper.eq(OrderInfo::getCustomerId, orderQueryForm.getCustomerId());
+            }
+            if (orderQueryForm.getDriverId() != null) {
+                queryWrapper.eq(OrderInfo::getDriverId, orderQueryForm.getDriverId());
+            }
+            if (orderQueryForm.getStatus() != null) {
+                queryWrapper.eq(OrderInfo::getStatus, orderQueryForm.getStatus());
+            }
+        }
+
+        Page<OrderInfo> pageInfo = page(pageParam, queryWrapper);
+
+        PageVo<OrderInfo> pageVo = new PageVo<>();
+        pageVo.setPage(pageParam.getCurrent());
+        pageVo.setLimit(pageParam.getSize());
         pageVo.setTotal(pageInfo.getTotal());
         pageVo.setPages(pageInfo.getPages());
         pageVo.setRecords(pageInfo.getRecords());

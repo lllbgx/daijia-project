@@ -2,6 +2,7 @@ package com.atguigu.daijia.coupon.client;
 
 import com.atguigu.daijia.common.result.Result;
 import com.atguigu.daijia.model.entity.coupon.CouponInfo;
+import com.atguigu.daijia.model.form.coupon.CouponQueryForm;
 import com.atguigu.daijia.model.form.coupon.UseCouponForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.coupon.AvailableCouponVo;
@@ -9,11 +10,7 @@ import com.atguigu.daijia.model.vo.coupon.NoReceiveCouponVo;
 import com.atguigu.daijia.model.vo.coupon.NoUseCouponVo;
 import com.atguigu.daijia.model.vo.coupon.UsedCouponVo;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -129,5 +126,23 @@ public interface CouponFeignClient {
      */
     @GetMapping("/coupon/info/mgr/updateCouponStatusById/{id}/{status}")
     Result<Boolean> updateCouponStatusById(@PathVariable("id") Long id, @PathVariable("status") Integer status);
+
+    /**
+     * 根据多条件分页查询优惠券信息（管理端）
+     */
+    @PostMapping("/coupon/info/mgr/findCouponInfoPageByCondition/{page}/{limit}")
+    Result<PageVo<CouponInfo>> findCouponInfoPageByCondition(@PathVariable("page") Long page, @PathVariable("limit") Long limit, @RequestBody CouponQueryForm couponQueryForm);
+
+    /**
+     * 新增优惠券（管理端）
+     */
+    @PostMapping("/coupon/info/mgr/addCoupon")
+    Result<Boolean> addCoupon(@RequestBody CouponInfo couponInfo);
+
+    /**
+     * 删除优惠券（管理端）
+     */
+    @DeleteMapping("/coupon/info/mgr/deleteCoupon/{id}")
+    Result<Boolean> deleteCoupon(@PathVariable("id") Long id);
 
 }

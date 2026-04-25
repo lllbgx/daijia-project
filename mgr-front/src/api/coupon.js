@@ -43,15 +43,29 @@ export const couponApi = {
     })
   },
 
-  // 新增优惠券（前端实现，后端暂无对应接口）
+  // 新增优惠券
   addCoupon(data) {
-    // 这里暂时返回成功，后端 API 待补充
-    return Promise.resolve({ success: true })
+    return request({
+      url: `/mgr/coupon/info/addCoupon`,
+      method: 'post',
+      data
+    })
   },
 
-  // 删除优惠券（前端实现，后端暂无对应接口）
+  // 删除优惠券
   deleteCoupon(id) {
-    // 这里暂时返回成功，后端 API 待补充
-    return Promise.resolve({ success: true })
+    return request({
+      url: `/mgr/coupon/info/deleteCoupon/${id}`,
+      method: 'delete'
+    })
+  },
+
+  // 根据多条件分页查询优惠券
+  findCouponInfoPageByCondition(page, limit, conditions) {
+    return request({
+      url: `/mgr/coupon/info/findCouponInfoPageByCondition/${page}/${limit}`,
+      method: 'post',
+      data: conditions
+    })
   }
 }

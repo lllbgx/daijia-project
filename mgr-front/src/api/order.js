@@ -51,5 +51,14 @@ export const orderApi = {
       method: 'get',
       params: { status }
     })
+  },
+
+  // 根据多条件分页查询订单
+  findOrderInfoPageByCondition(page, limit, conditions) {
+    return request({
+      url: `/mgr/order/info/findOrderInfoPageByCondition/${page}/${limit}`,
+      method: 'post',
+      data: conditions
+    })
   }
 }

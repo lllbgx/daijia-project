@@ -25,7 +25,7 @@ public class BaseEntity implements Serializable {
     @TableField("update_time")
     private Date updateTime;
 
-    @JsonIgnore
+//    @JsonIgnore
     @TableLogic
     @TableField("is_deleted")
     private Integer isDeleted;

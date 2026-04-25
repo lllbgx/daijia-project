@@ -2,6 +2,7 @@ package com.atguigu.daijia.order.service;
 
 import com.atguigu.daijia.model.entity.order.OrderInfo;
 import com.atguigu.daijia.model.form.order.OrderInfoForm;
+import com.atguigu.daijia.model.form.order.OrderQueryForm;
 import com.atguigu.daijia.model.form.order.StartDriveForm;
 import com.atguigu.daijia.model.form.order.UpdateOrderBillForm;
 import com.atguigu.daijia.model.form.order.UpdateOrderCartForm;
@@ -94,4 +95,9 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * 根据订单状态分页查询订单信息
      */
     PageVo<OrderInfo> findOrderInfoPageByStatus(Long page, Long limit, Integer status);
+
+    /**
+     * 根据多条件分页查询订单信息
+     */
+    PageVo<OrderInfo> findOrderInfoPageByCondition(Page<OrderInfo> pageParam, OrderQueryForm orderQueryForm);
 }

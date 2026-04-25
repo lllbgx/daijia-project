@@ -1,6 +1,7 @@
 package com.atguigu.daijia.coupon.service;
 
 import com.atguigu.daijia.model.entity.coupon.CouponInfo;
+import com.atguigu.daijia.model.form.coupon.CouponQueryForm;
 import com.atguigu.daijia.model.form.coupon.UseCouponForm;
 import com.atguigu.daijia.model.vo.base.PageVo;
 import com.atguigu.daijia.model.vo.coupon.AvailableCouponVo;
@@ -55,4 +56,19 @@ public interface CouponInfoService extends IService<CouponInfo> {
      * 更新优惠券状态
      */
     Boolean updateCouponStatusById(Long id, Integer status);
+
+    /**
+     * 根据多条件分页查询优惠券信息
+     */
+    PageVo<CouponInfo> findCouponInfoPageByCondition(Page<CouponInfo> pageParam, CouponQueryForm couponQueryForm);
+
+    /**
+     * 新增优惠券
+     */
+    Boolean addCoupon(CouponInfo couponInfo);
+
+    /**
+     * 删除优惠券（逻辑删除）
+     */
+    Boolean deleteCoupon(Long id);
 }

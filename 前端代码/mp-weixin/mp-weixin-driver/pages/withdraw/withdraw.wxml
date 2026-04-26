@@ -1,0 +1,23 @@
+<view class="container">
+  <!-- 可提现金额显示 -->
+  <view class="available-section">
+    <text class="available-label">可提现金额</text>
+    <text class="available-value">{{availableAmount}}元</text>
+  </view>
+
+  <!-- 提现金额输入 -->
+  <view class="input-section">
+    <view class="input-item">
+      <text class="input-label">提现金额</text>
+      <view class="input-row">
+        <text class="yuan">¥</text>
+        <input class="input" type="digit" placeholder="请输入金额" value="{{amount}}" bindinput="onAmountInput" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 提现按钮 -->
+  <view class="btn-section">
+    <button class="btn-withdraw" bindtap="onWithdraw" disabled="{{!amount || amount <= 0}}">提现</button>
+  </view>
+</view>

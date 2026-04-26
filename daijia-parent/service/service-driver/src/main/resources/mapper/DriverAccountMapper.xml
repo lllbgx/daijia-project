@@ -19,5 +19,29 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		set total_amount = total_amount + #{amount}, available_amount = available_amount + #{amount}, total_income_amount = total_income_amount + #{amount}
 		where driver_id = #{driverId}
 	</update>
-</mapper>
 
+	<!-- 锁定收入：总金额↑ 锁定金额↑ -->
+	<update id="lockIncome">
+		update driver_account
+		set total_amount = total_amount + #{amount},
+			lock_amount = lock_amount + #{amount},
+			total_income_amount = total_income_amount + #{amount}
+		where driver_id = #{driverId}
+	</update>
+
+	<!-- 解锁收入：锁定金额↓ 可用金额↑ -->
+	<update id="unlockIncome">
+		update driver_account
+		set lock_amount = lock_amount - #{amount},
+			available_amount = available_amount + #{amount}
+		where driver_id = #{driverId}
+	</update>
+
+	<!-- 提现：可用金额↓ 总支出↑ -->
+	<update id="withdraw">
+		update driver_account
+		set available_amount = available_amount - #{amount},
+			total_pay_amount = total_pay_amount + #{amount}
+		where driver_id = #{driverId}
+	</update>
+</mapper>

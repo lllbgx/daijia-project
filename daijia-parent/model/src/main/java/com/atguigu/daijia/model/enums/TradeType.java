@@ -6,7 +6,10 @@ import lombok.Getter;
 @Getter
 public enum TradeType {
 
-    REWARD(1, "系统奖励"),
+    INCOME(1201, "进账"),
+    UNLOCK(1202, "解锁"),
+    WITHDRAW(1203, "提现"),
+    REWARD(1204, "系统奖励"),
     ;
 
     @EnumValue

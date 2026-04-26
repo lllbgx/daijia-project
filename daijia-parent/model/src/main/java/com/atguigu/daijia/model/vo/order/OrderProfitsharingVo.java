@@ -9,6 +9,15 @@ import java.math.BigDecimal;
 @Data
 @Schema(description = "OrderProfitsharingVo")
 public class OrderProfitsharingVo {
+
+    @Schema(description = "订单ID")
+    @TableField("order_id")
+    private Long orderId;
+
+    @Schema(description = "司机ID")
+    @TableField("driver_id")
+    private Long driverId;
+
     @Schema(description = "订单金额")
 	@TableField("order_amount")
 	private BigDecimal orderAmount;

@@ -48,6 +48,8 @@ public interface OrderInfoService extends IService<OrderInfo> {
 
     OrderProfitsharingVo getOrderProfitsharing(Long orderId);
 
+    OrderProfitsharingVo getOrderProfitsharingByOrderNo(String orderNo);
+
     Boolean sendOrderBillInfo(Long orderId, Long driverId);
 
     OrderPayVo getOrderPayVo(String orderNo, Long customerId);

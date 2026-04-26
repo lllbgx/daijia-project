@@ -22,6 +22,7 @@ import com.atguigu.daijia.order.mapper.OrderInfoMapper;
 import com.atguigu.daijia.order.mapper.OrderProfitsharingMapper;
 import com.atguigu.daijia.order.mapper.OrderStatusLogMapper;
 import com.atguigu.daijia.coupon.client.CouponFeignClient;
+import com.atguigu.daijia.driver.client.DriverAccountFeignClient;
 import com.atguigu.daijia.order.service.OrderInfoService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -52,6 +53,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
     @Autowired
     private CouponFeignClient couponFeignClient;
+
+    @Autowired
+    private DriverAccountFeignClient driverAccountFeignClient;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -351,6 +355,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             orderProfitsharing.setStatus(1);
             orderProfitsharingMapper.insert(orderProfitsharing);
 
+            OrderInfo orderInfoToNo = orderInfoMapper.selectById(updateOrderBillForm.getOrderId());
+            String orderNo = orderInfoToNo.getOrderNo();
+            // 调用司机账户服务，锁定司机收入（1201-进账）
+            driverAccountFeignClient.lockIncome(
+                    updateOrderBillForm.getDriverId(),
+                    updateOrderBillForm.getDriverIncome(),
+//                    updateOrderBillForm.getOrderId().toString(),
+                    orderNo,
+                    "代驾服务结束，收入锁定"
+            );
+
         } else {
             throw new GuiguException(ResultCodeEnum.UPDATE_ERROR);
         }
@@ -389,6 +404,33 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
         OrderProfitsharingVo orderProfitsharingVo = new OrderProfitsharingVo();
         BeanUtils.copyProperties(orderProfitsharing,orderProfitsharingVo);
+        return orderProfitsharingVo;
+    }
+
+    @Override
+    public OrderProfitsharingVo getOrderProfitsharingByOrderNo(String orderNo) {
+        // 先通过订单号查询订单ID
+        LambdaQueryWrapper<OrderInfo> orderWrapper = new LambdaQueryWrapper<>();
+        orderWrapper.eq(OrderInfo::getOrderNo, orderNo);
+        orderWrapper.select(OrderInfo::getId, OrderInfo::getDriverId);
+        OrderInfo orderInfo = orderInfoMapper.selectOne(orderWrapper);
+
+        if (orderInfo == null) {
+            return null;
+        }
+
+        // 再通过订单ID查询分账信息
+        LambdaQueryWrapper<OrderProfitsharing> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(OrderProfitsharing::getOrderId, orderInfo.getId());
+        OrderProfitsharing orderProfitsharing = orderProfitsharingMapper.selectOne(wrapper);
+
+        if (orderProfitsharing == null) {
+            return null;
+        }
+
+        OrderProfitsharingVo orderProfitsharingVo = new OrderProfitsharingVo();
+        BeanUtils.copyProperties(orderProfitsharing, orderProfitsharingVo);
+        orderProfitsharingVo.setDriverId(orderInfo.getDriverId());
         return orderProfitsharingVo;
     }
 

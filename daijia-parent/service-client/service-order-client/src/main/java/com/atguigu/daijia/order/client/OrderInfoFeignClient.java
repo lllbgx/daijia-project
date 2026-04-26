@@ -156,6 +156,14 @@ public interface OrderInfoFeignClient {
     Result<OrderProfitsharingVo> getOrderProfitsharing(@PathVariable("orderId") Long orderId);
 
     /**
+     * 根据订单号获取实际分账信息
+     * @param orderNo
+     * @return
+     */
+    @GetMapping("/order/info/getOrderProfitsharingByOrderNo/{orderNo}")
+    Result<OrderProfitsharingVo> getOrderProfitsharingByOrderNo(@PathVariable("orderNo") String orderNo);
+
+    /**
      * 司机发送账单信息
      * @param orderId
      * @param driverId

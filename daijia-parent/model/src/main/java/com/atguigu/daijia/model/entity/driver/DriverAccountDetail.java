@@ -23,7 +23,7 @@ public class DriverAccountDetail extends BaseEntity {
 	@TableField("content")
 	private String content;
 
-    @Schema(description = "交易类型：1201-充值 1202-锁定 1203-解锁 1204-消费")
+    @Schema(description = "交易类型：1201-进账 1202-解锁 1203-提现")
 	@TableField("trade_type")
 	private String tradeType;
 

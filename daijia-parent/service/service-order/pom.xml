@@ -30,6 +30,13 @@
             <version>1.0</version>
         </dependency>
 
+        <!-- 司机服务Feign客户端依赖 -->
+        <dependency>
+            <groupId>com.atguigu.daijia</groupId>
+            <artifactId>service-driver-client</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!-- OpenFeign依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

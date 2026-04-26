@@ -1,0 +1,70 @@
+<view class="container">
+  <!-- 账户信息区域 -->
+  <view class="account-section">
+    <view class="account-row">
+      <view class="account-item">
+        <text class="label">总金额</text>
+        <text class="value orange">{{accountInfo.totalAmount}}元</text>
+      </view>
+      <view class="account-item">
+        <text class="label">锁定金额</text>
+        <text class="value orange">{{accountInfo.lockAmount}}元</text>
+      </view>
+    </view>
+    <view class="account-row">
+      <view class="account-item">
+        <text class="label">可用金额</text>
+        <text class="value green">{{accountInfo.availableAmount}}元</text>
+      </view>
+      <view class="account-item">
+        <text class="label">总收入</text>
+        <text class="value grey">{{accountInfo.totalIncomeAmount}}元</text>
+      </view>
+    </view>
+    <view class="account-row">
+      <view class="account-item">
+        <text class="label">总支出</text>
+        <text class="value grey">{{accountInfo.totalPayAmount}}元</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分割线 -->
+  <view class="divider"></view>
+
+  <!-- 交易明细标题 -->
+  <view class="section-title">
+    <text>交易明细</text>
+  </view>
+
+  <!-- 交易明细列表 -->
+  <scroll-view scroll-y class="detail-list" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="true">
+    <view wx:for="{{detailList}}" wx:key="id" class="detail-item">
+      <view class="detail-left">
+        <text class="trade-type">{{item.tradeTypeName}}</text>
+        <text class="content">{{item.content}}</text>
+        <text class="time">{{item.createTime}}</text>
+      </view>
+      <view class="detail-right">
+        <text class="amount {{item.tradeType == 1201 || item.tradeType == 1204 ? 'income' : 'expense'}}">
+          {{item.tradeType == 1201 || item.tradeType == 1204 ? '+' : '-'}}{{item.amountStr}}元
+        </text>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:if="{{detailList.length === 0}}" class="empty">
+      <text>暂无交易记录</text>
+    </view>
+
+    <!-- 没有更多 -->
+    <view wx:if="{{page >= pages && detailList.length > 0}}" class="no-more">
+      <text>没有更多了</text>
+    </view>
+  </scroll-view>
+
+  <!-- 提现按钮（固定在底部） -->
+  <view class="withdraw-btn-section">
+    <button class="btn-withdraw" bindtap="goWithdraw">提现</button>
+  </view>
+</view>

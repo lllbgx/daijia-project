@@ -54,6 +54,15 @@ function stopService() {
 function searchDriverCurrentOrder() {
   return http_index.http.get("/order/searchDriverCurrentOrder");
 }
+function getDriverAccountInfo() {
+  return http_index.http.get("/driver/account/info");
+}
+function getDriverAccountDetailPage(page, limit) {
+  return http_index.http.get(`/driver/account/detail/${page}/${limit}`);
+}
+function withdrawAccount(params) {
+  return http_index.http.post("/driver/account/withdraw", params);
+}
 exports.endOrderServiceByDriver = endOrderServiceByDriver;
 exports.getExpectOrder = getExpectOrder;
 exports.getNewOrder = getNewOrder;
@@ -63,6 +72,9 @@ exports.getOrderStatus = getOrderStatus;
 exports.grabOrder = grabOrder;
 exports.searchDriverCurrentOrder = searchDriverCurrentOrder;
 exports.sendOrderBillInfo = sendOrderBillInfo;
+exports.getDriverAccountInfo = getDriverAccountInfo;
+exports.getDriverAccountDetailPage = getDriverAccountDetailPage;
+exports.withdrawAccount = withdrawAccount;
 exports.startOrderService = startOrderService;
 exports.startOrderServiceByDriver = startOrderServiceByDriver;
 exports.stopOrderService = stopOrderService;

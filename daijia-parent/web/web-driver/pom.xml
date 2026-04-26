@@ -30,6 +30,12 @@
 			<groupId>io.minio</groupId>
 			<artifactId>minio</artifactId>
 		</dependency>
+		<!-- 司机服务Feign客户端 -->
+		<dependency>
+			<groupId>com.atguigu.daijia</groupId>
+			<artifactId>service-driver-client</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

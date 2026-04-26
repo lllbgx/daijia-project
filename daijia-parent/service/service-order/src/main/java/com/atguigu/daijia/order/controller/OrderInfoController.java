@@ -141,6 +141,12 @@ public class OrderInfoController {
         return Result.ok(orderInfoService.getOrderProfitsharing(orderId));
     }
 
+    @Operation(summary = "根据订单号获取实际分账信息")
+    @GetMapping("/getOrderProfitsharingByOrderNo/{orderNo}")
+    public Result<OrderProfitsharingVo> getOrderProfitsharingByOrderNo(@PathVariable String orderNo) {
+        return Result.ok(orderInfoService.getOrderProfitsharingByOrderNo(orderNo));
+    }
+
     @Operation(summary = "发送账单信息")
     @GetMapping("/sendOrderBillInfo/{orderId}/{driverId}")
     Result<Boolean> sendOrderBillInfo(@PathVariable Long orderId, @PathVariable Long driverId) {

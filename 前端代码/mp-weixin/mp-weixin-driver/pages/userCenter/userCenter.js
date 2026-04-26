@@ -45,10 +45,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         isNav: false
       },
       {
-        name: "优惠券",
-        icon: "iconfontyouhuiquan",
-        path: "/pages/coupon/coupon",
-        isNav: true
+        name: "账户",
+        icon: "iconfontzhanghu",
+        path: "/pages/driverAccount/driverAccount",
+        isNav: false
       }
     ]);
     function goPage(item) {

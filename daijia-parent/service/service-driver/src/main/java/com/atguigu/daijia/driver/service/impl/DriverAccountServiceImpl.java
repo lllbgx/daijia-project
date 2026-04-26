@@ -90,7 +90,7 @@ public class DriverAccountServiceImpl extends ServiceImpl<DriverAccountMapper, D
         LambdaQueryWrapper<DriverAccountDetail> detailWrapper = new LambdaQueryWrapper<>();
         detailWrapper.eq(DriverAccountDetail::getTradeNo, tradeNo);
         Long count = driverAccountDetailMapper.selectCount(detailWrapper);
-        if (count > 0) {
+        if (count > 1) {
             return true;
         }
 

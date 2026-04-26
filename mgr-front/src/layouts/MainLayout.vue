@@ -2,7 +2,7 @@
   <el-container class="main-container">
     <el-aside width="200px" class="aside">
       <div class="logo">
-        <h2>硅谷代驾管理</h2>
+        <h2>智慧代驾管理</h2>
       </div>
       <el-menu
         :default-active="activeMenu"

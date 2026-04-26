@@ -1,53 +1,81 @@
 <view class="container">
-  <!-- 账户信息区域 -->
-  <view class="account-section">
-    <view class="account-row">
-      <view class="account-item">
-        <text class="label">总金额</text>
-        <text class="value orange">{{accountInfo.totalAmount}}元</text>
+  <!-- 账户总览卡片 -->
+  <view class="account-card">
+    <!-- 装饰图案 -->
+    <view class="card-decoration">
+      <text class="decoration-yen">¥</text>
+    </view>
+
+    <!-- 左侧：总金额 -->
+    <view class="card-left">
+      <view class="total-section">
+        <text class="total-label">账户总金额(元)</text>
+        <text class="total-amount">{{accountInfo.totalAmount}}</text>
       </view>
-      <view class="account-item">
-        <text class="label">锁定金额</text>
-        <text class="value orange">{{accountInfo.lockAmount}}元</text>
+      <view class="sub-amount-row">
+        <view class="sub-amount-item">
+          <text class="sub-label">可用金额</text>
+          <text class="sub-value">{{accountInfo.availableAmount}}</text>
+        </view>
+        <view class="sub-amount-item">
+          <text class="sub-label">锁定金额</text>
+          <text class="sub-value">{{accountInfo.lockAmount}}</text>
+        </view>
       </view>
     </view>
-    <view class="account-row">
-      <view class="account-item">
-        <text class="label">可用金额</text>
-        <text class="value green">{{accountInfo.availableAmount}}元</text>
+
+    <!-- 右侧：收入支出 -->
+    <view class="card-right">
+      <view class="right-item top">
+        <text class="right-label">总收入</text>
+        <text class="right-value">{{accountInfo.totalIncomeAmount}}</text>
       </view>
-      <view class="account-item">
-        <text class="label">总收入</text>
-        <text class="value grey">{{accountInfo.totalIncomeAmount}}元</text>
-      </view>
-    </view>
-    <view class="account-row">
-      <view class="account-item">
-        <text class="label">总支出</text>
-        <text class="value grey">{{accountInfo.totalPayAmount}}元</text>
+      <view class="right-divider"></view>
+      <view class="right-item bottom">
+        <text class="right-label">总支出</text>
+        <text class="right-value">{{accountInfo.totalPayAmount}}</text>
       </view>
     </view>
   </view>
 
-  <!-- 分割线 -->
-  <view class="divider"></view>
+  <!-- 交易明细区域 -->
+  <view class="detail-card">
+    <view class="detail-header">
+      <text class="detail-title">交易明细</text>
+    </view>
 
-  <!-- 交易明细标题 -->
-  <view class="section-title">
-    <text>交易明细</text>
-  </view>
-
-  <!-- 交易明细列表 -->
-  <scroll-view scroll-y class="detail-list" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="true">
+    <!-- 交易列表 -->
     <view wx:for="{{detailList}}" wx:key="id" class="detail-item">
-      <view class="detail-left">
-        <text class="trade-type">{{item.tradeTypeName}}</text>
-        <text class="content">{{item.content}}</text>
-        <text class="time">{{item.createTime}}</text>
+      <!-- 左侧图标 -->
+      <view class="item-icon {{item.tradeType == 1201 ? 'icon-income' : (item.tradeType == 1202 ? 'icon-unlock' : 'icon-withdraw')}}">
+        <!-- 进账图标：简约箭头+横线表示收入 -->
+        <view wx:if="{{item.tradeType == 1201}}" class="icon-income-wrap">
+          <view class="income-arrow"></view>
+          <view class="income-line"></view>
+        </view>
+        <!-- 解锁图标：简约钥匙形状 -->
+        <view wx:elif="{{item.tradeType == 1202}}" class="icon-unlock-wrap">
+          <view class="unlock-ring"></view>
+          <view class="unlock-shackle"></view>
+        </view>
+        <!-- 提现图标：简约向下箭头表示支出 -->
+        <view wx:else class="icon-withdraw-wrap">
+          <view class="withdraw-arrow"></view>
+          <view class="withdraw-line"></view>
+        </view>
       </view>
-      <view class="detail-right">
-        <text class="amount {{item.tradeType == 1201 || item.tradeType == 1204 ? 'income' : 'expense'}}">
-          {{item.tradeType == 1201 || item.tradeType == 1204 ? '+' : '-'}}{{item.amountStr}}元
+
+      <!-- 中间信息 -->
+      <view class="item-content">
+        <text class="item-title">{{item.tradeTypeName}}</text>
+        <text class="item-remark">{{item.content}}</text>
+        <text class="item-time">{{item.createTime}}</text>
+      </view>
+
+      <!-- 右侧金额 -->
+      <view class="item-amount">
+        <text class="amount-value {{item.tradeType == 1201 ? 'amount-gray' : (item.tradeType == 1202 ? 'amount-green' : 'amount-orange')}}">
+          {{item.tradeType == 1201 || item.tradeType == 1202 ? '+' : '-'}}{{item.amountStr}}
         </text>
       </view>
     </view>
@@ -59,9 +87,9 @@
 
     <!-- 没有更多 -->
     <view wx:if="{{page >= pages && detailList.length > 0}}" class="no-more">
-      <text>没有更多了</text>
+      <text>— 没有更多了 —</text>
     </view>
-  </scroll-view>
+  </view>
 
   <!-- 提现按钮（固定在底部） -->
   <view class="withdraw-btn-section">

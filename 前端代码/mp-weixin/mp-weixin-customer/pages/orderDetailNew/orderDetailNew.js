@@ -100,7 +100,6 @@ Page({
   goComment: function() {
     var that = this;
     var driverId = that.data.driverInfo ? that.data.driverInfo.driverId : '';
-    // 从缓存拿用户ID（尚硅谷项目固定写法）
     // var userInfo = wx.getStorageSync('userInfo');
     // var customerId = userInfo.id; 
     console.log("===== 页面传过来的参数data =====", that.data); // 加这一行

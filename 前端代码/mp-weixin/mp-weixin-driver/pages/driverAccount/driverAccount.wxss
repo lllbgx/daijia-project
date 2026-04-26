@@ -5,144 +5,330 @@
   padding-bottom: 120rpx;
 }
 
-.account-section {
-  background-color: #fff;
-  padding: 30rpx;
+/* ==================== 账户总览卡片 ==================== */
+.account-card {
+  position: relative;
+  margin: 30rpx;
+  padding: 40rpx 30rpx;
+  background: linear-gradient(135deg, #1a4bd3 0%, #2d6ce0 50%, #4480f0 100%);
+  border-radius: 24rpx;
+  box-shadow: 0 8rpx 30rpx rgba(26, 75, 211, 0.3);
+  display: flex;
+  overflow: hidden;
 }
 
-.account-row {
+.card-decoration {
+  position: absolute;
+  right: -20rpx;
+  top: -20rpx;
+  opacity: 0.1;
+}
+
+.decoration-yen {
+  font-size: 200rpx;
+  color: #fff;
+  font-weight: bold;
+}
+
+.card-left {
+  flex: 7;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  padding-right: 20rpx;
+}
+
+.total-section {
   margin-bottom: 30rpx;
 }
 
-.account-row:last-child {
-  margin-bottom: 0;
+.total-label {
+  display: block;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10rpx;
 }
 
-.account-item {
+.total-amount {
+  display: block;
+  font-size: 64rpx;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.sub-amount-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sub-amount-item {
   flex: 1;
+}
+
+.sub-label {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 6rpx;
+}
+
+.sub-value {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #fff;
+}
+
+.card-right {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 30rpx;
+  position: relative;
+}
+
+.card-right::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10rpx;
+  bottom: 10rpx;
+  width: 1rpx;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.right-item {
   display: flex;
   flex-direction: column;
 }
 
-.label {
-  font-size: 28rpx;
-  color: #666;
-  margin-bottom: 10rpx;
+.right-item.top {
+  padding-bottom: 20rpx;
 }
 
-.value {
-  font-size: 36rpx;
-  font-weight: bold;
+.right-item.bottom {
+  padding-top: 20rpx;
 }
 
-.value.orange {
-  color: #ff6600;
+.right-label {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 6rpx;
 }
 
-.value.green {
-  color: #00c853;
+.right-value {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #fff;
+  text-align: right;
 }
 
-.value.grey {
-  color: #999;
-}
-
-.divider {
-  height: 20rpx;
-  background-color: #f5f5f5;
-}
-
-.section-title {
+/* ==================== 交易明细卡片 ==================== */
+.detail-card {
+  margin: 0 30rpx 30rpx;
   background-color: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.detail-header {
   padding: 30rpx;
   border-bottom: 1rpx solid #f0f0f0;
 }
 
-.section-title text {
+.detail-title {
   font-size: 32rpx;
   font-weight: bold;
   color: #333;
-}
-
-.detail-list {
-  background-color: #fff;
-  height: calc(100vh - 400rpx);
 }
 
 .detail-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 30rpx;
-  border-bottom: 1rpx solid #f0f0f0;
+  padding: 28rpx 30rpx;
+  border-bottom: 1rpx solid #f5f5f5;
 }
 
-.detail-left {
+/* ==================== 图标容器 ==================== */
+.item-icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.item-icon.icon-income {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.item-icon.icon-unlock {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.item-icon.icon-withdraw {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* ==================== 进账图标：简约收入箭头 ==================== */
+.icon-income-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.income-arrow {
+  width: 0;
+  height: 0;
+  border-left: 8rpx solid transparent;
+  border-right: 8rpx solid transparent;
+  border-bottom: 14rpx solid #fff;
+  margin-bottom: 4rpx;
+}
+
+.income-line {
+  width: 20rpx;
+  height: 4rpx;
+  background-color: #fff;
+  border-radius: 2rpx;
+}
+
+/* ==================== 解锁图标：简约钥匙孔 ==================== */
+.icon-unlock-wrap {
+  position: relative;
+  width: 28rpx;
+  height: 36rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.unlock-ring {
+  width: 22rpx;
+  height: 22rpx;
+  border: 4rpx solid #fff;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.unlock-shackle {
+  width: 4rpx;
+  height: 16rpx;
+  background-color: #fff;
+  border-radius: 2rpx;
+  margin-top: -4rpx;
+}
+
+/* ==================== 提现图标：简约向下箭头 ==================== */
+.icon-withdraw-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.withdraw-line {
+  width: 20rpx;
+  height: 4rpx;
+  background-color: #fff;
+  border-radius: 2rpx;
+  margin-top: 4rpx;
+}
+
+.withdraw-arrow {
+  width: 0;
+  height: 0;
+  border-left: 8rpx solid transparent;
+  border-right: 8rpx solid transparent;
+  border-top: 14rpx solid #fff;
+}
+
+/* ==================== 中间内容 ==================== */
+.item-content {
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.trade-type {
+.item-title {
   font-size: 30rpx;
+  font-weight: 600;
   color: #333;
-  font-weight: bold;
   margin-bottom: 8rpx;
 }
 
-.content {
-  font-size: 26rpx;
-  color: #666;
-  margin-bottom: 8rpx;
-}
-
-.time {
+.item-remark {
   font-size: 24rpx;
   color: #999;
+  margin-bottom: 6rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 320rpx;
 }
 
-.detail-right {
-  display: flex;
-  align-items: center;
+.item-time {
+  font-size: 22rpx;
+  color: #ccc;
 }
 
-.amount {
+/* ==================== 右侧金额 ==================== */
+.item-amount {
+  flex-shrink: 0;
+  margin-left: 20rpx;
+}
+
+.amount-value {
   font-size: 32rpx;
   font-weight: bold;
 }
 
-.amount.income {
-  color: #00c853;
-}
-
-.amount.expense {
-  color: #ff6600;
-}
-
-.loading {
-  text-align: center;
-  padding: 30rpx;
+.amount-gray {
   color: #999;
-  font-size: 26rpx;
 }
 
+.amount-green {
+  color: #07c160;
+}
+
+.amount-orange {
+  color: #ff6b35;
+}
+
+/* ==================== 空状态 ==================== */
 .empty {
+  padding: 80rpx 0;
   text-align: center;
-  padding: 100rpx;
-  color: #999;
+}
+
+.empty text {
   font-size: 28rpx;
+  color: #ccc;
 }
 
 .no-more {
+  padding: 30rpx 0;
   text-align: center;
-  padding: 30rpx;
-  color: #999;
-  font-size: 26rpx;
+  border-top: 1rpx solid #f5f5f5;
 }
 
-/* 提现按钮区域 - 固定在底部 */
+.no-more text {
+  font-size: 24rpx;
+  color: #ccc;
+}
+
+/* ==================== 提现按钮 ==================== */
 .withdraw-btn-section {
   position: fixed;
   left: 0;
@@ -158,9 +344,11 @@
   width: 100%;
   height: 88rpx;
   line-height: 88rpx;
-  background-color: #07c160;
+  background: linear-gradient(135deg, #07c160 0%, #05a050 100%);
   color: #fff;
   border-radius: 44rpx;
   font-size: 32rpx;
+  font-weight: 500;
   border: none;
+  box-shadow: 0 4rpx 15rpx rgba(7, 193, 96, 0.3);
 }

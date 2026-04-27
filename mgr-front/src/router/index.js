@@ -38,6 +38,12 @@ const routes = [
         name: 'Log',
         component: () => import('../views/log/LogList.vue'),
         meta: { title: '日志管理' }
+      },
+      {
+        path: 'finance',
+        name: 'Finance',
+        component: () => import('../views/finance/FinanceList.vue'),
+        meta: { title: '财务管理' }
       }
     ]
   }

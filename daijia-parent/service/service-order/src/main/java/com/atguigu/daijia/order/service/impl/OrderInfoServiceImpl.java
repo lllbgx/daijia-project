@@ -38,8 +38,11 @@ import org.springframework.util.StringUtils;
 import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -313,6 +316,29 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         wrapper.lt(OrderInfo::getStartServiceTime,endTime);
         Long count = orderInfoMapper.selectCount(wrapper);
         return count;
+    }
+
+    @Override
+    public BigDecimal getIncomeByTime(String startTime, String endTime) {
+        // 查询已支付订单的营收金额（status=8）
+        LambdaQueryWrapper<OrderInfo> wrapper = new LambdaQueryWrapper<>();
+        wrapper.ge(OrderInfo::getStartServiceTime, startTime);
+        wrapper.lt(OrderInfo::getStartServiceTime, endTime);
+        wrapper.eq(OrderInfo::getStatus, 8); // 已支付
+        List<OrderInfo> orders = orderInfoMapper.selectList(wrapper);
+        if (orders == null || orders.isEmpty()) {
+            return new BigDecimal("0.00");
+        }
+        // 批量查询账单
+        List<Long> orderIds = orders.stream().map(OrderInfo::getId).collect(Collectors.toList());
+        List<OrderBill> bills = orderBillMapper.selectBatchIds(orderIds);
+        if (bills == null || bills.isEmpty()) {
+            return new BigDecimal("0.00");
+        }
+        return bills.stream()
+                .map(OrderBill::getPayAmount)
+                .filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Autowired
@@ -723,7 +749,21 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             if (orderQueryForm.getStatus() != null) {
                 queryWrapper.eq(OrderInfo::getStatus, orderQueryForm.getStatus());
             }
+            // 状态大于等于筛选（用于财务统计，只查询有账单的订单）
+            if (orderQueryForm.getStatusGte() != null) {
+                queryWrapper.ge(OrderInfo::getStatus, orderQueryForm.getStatusGte());
+            }
+            // 日期范围筛选
+            if (StringUtils.hasText(orderQueryForm.getStartDate())) {
+                queryWrapper.ge(OrderInfo::getCreateTime, orderQueryForm.getStartDate());
+            }
+            if (StringUtils.hasText(orderQueryForm.getEndDate())) {
+                queryWrapper.le(OrderInfo::getCreateTime, orderQueryForm.getEndDate());
+            }
         }
+
+        // 按创建时间降序排序
+        queryWrapper.orderByDesc(OrderInfo::getCreateTime);
 
         Page<OrderInfo> pageInfo = page(pageParam, queryWrapper);
 

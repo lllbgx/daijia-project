@@ -91,6 +91,12 @@ public class OrderInfoController {
         return Result.ok(orderInfoService.getOrderNumByTime(startTime, endTime));
     }
 
+    @Operation(summary = "根据时间段获取营收金额")
+    @GetMapping("/getIncomeByTime/{startTime}/{endTime}")
+    public Result<BigDecimal> getIncomeByTime(@PathVariable String startTime, @PathVariable String endTime) {
+        return Result.ok(orderInfoService.getIncomeByTime(startTime, endTime));
+    }
+
     @Operation(summary = "结束代驾服务更新订单账单")
     @PostMapping("/endDrive")
     public Result<Boolean> endDrive(@RequestBody UpdateOrderBillForm updateOrderBillForm) {

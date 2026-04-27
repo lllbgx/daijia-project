@@ -37,6 +37,8 @@ public interface OrderInfoService extends IService<OrderInfo> {
 
     Long getOrderNumByTime(String startTime, String endTime);
 
+    BigDecimal getIncomeByTime(String startTime, String endTime);
+
     Boolean endDrive(UpdateOrderBillForm updateOrderBillForm);
 
     //获取乘客订单分页列表

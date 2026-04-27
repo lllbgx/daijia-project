@@ -31,6 +31,15 @@ public interface OrderInfoFeignClient {
     Result<Long> saveOrderInfo(@RequestBody OrderInfoForm orderInfoForm);
 
     /**
+     * 根据时间段获取营收金额
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @GetMapping("/order/info/getIncomeByTime/{startTime}/{endTime}")
+    Result<BigDecimal> getIncomeByTime(@PathVariable String startTime, @PathVariable String endTime);
+
+    /**
      * 根据订单id获取订单状态
      * @param orderId
      * @return

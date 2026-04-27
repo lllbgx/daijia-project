@@ -31,6 +31,10 @@
           <el-icon><List /></el-icon>
           <span>日志管理</span>
         </el-menu-item>
+        <el-menu-item index="/finance">
+          <el-icon><Money /></el-icon>
+          <span>财务管理</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -60,7 +64,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { User, Van, Ticket, Document, ArrowDown, List } from '@element-plus/icons-vue'
+import { User, Van, Ticket, Document, ArrowDown, List, Money } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const activeMenu = computed(() => route.path)
